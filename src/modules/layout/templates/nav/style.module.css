@@ -1,0 +1,40 @@
+.navbar {
+    display: flex;
+    width: 100%;
+    height: 60px;
+    background: #fff;
+    position: relative;
+}
+
+.logoholder {
+    position: absolute;
+    left: 30px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.logoimg {
+    background-image: url("/img/cbxlogo.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    display: block;
+    width: 216px;
+    height: 24px;
+}
+
+.navlinks {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;
+}
+
+.navlink {
+    padding: 0 20px;
+    font-weight: bold;
+    font-size: 18px;
+}
