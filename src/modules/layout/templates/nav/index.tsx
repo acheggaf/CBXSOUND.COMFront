@@ -1,16 +1,12 @@
-import { Suspense } from "react"
-import styles from "./style.module.css"
-import { listRegions } from "@lib/data"
-import Image from 'next/image';
-import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import CartButton from "@modules/layout/components/cart-button"
-import SideMenu from "@modules/layout/components/side-menu"
+import styles from "./style.module.css";
+import { listRegions } from "@lib/data";
+import SearchBar from "./search-bar";
 
 export default async function Nav() {
-  const regions = await listRegions().then((regions) => regions)
+  const regions = await listRegions().then((regions) => regions);
 
   return (
-   <div className={styles.navbar}>
+    <div className={styles.navbar}>
       <div className={styles.logoholder}>
         <a href="/us/" className={styles.logoimg}></a>
       </div>
@@ -19,7 +15,11 @@ export default async function Nav() {
         <a href="/#" className={styles.navlink}>Community</a>
         <a href="/#" className={styles.navlink}>Assistance</a>
       </div>
-
-   </div>
-  )
+      <div className={styles.iconHolder}>
+        <a href="/#" className={`${styles.navicon} ${styles.userlogin}`}></a>
+        <div className={`${styles.navicon} ${styles.cart}`}></div>
+        <SearchBar />
+      </div>
+    </div>
+  );
 }

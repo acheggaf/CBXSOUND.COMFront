@@ -34,7 +34,82 @@
 }
 
 .navlink {
-    padding: 0 20px;
-    font-weight: bold;
-    font-size: 18px;
+    margin: 0 20px;
+    font-weight: 600;
+    font-size: 17px;
+    transition: color 0.1s ease; /* Smooth transition for color change */
+    cursor: pointer; /* Changes cursor to pointer on hover */
+}
+
+.navlink:hover {
+    color: #555555;
+}
+
+
+.iconHolder {
+    position: absolute;
+    right: 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.navicon {
+    margin: 0 12px;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.navicon:hover {
+    filter: invert(42%) sepia(93%);
+}
+
+.userlogin {
+    background-image: url("/img/user.svg");
+}
+
+.cart {
+    background-image: url("/img/cart.svg");
+}
+
+.search {
+    background-image: url("/img/search.svg");
+}
+
+.searchContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    width: 44px; /* Width of search icon + its margin */
+    transition: width 0.3s ease;
+}
+
+.searchContainer.searchActive {
+    width: 244px; /* Width of search icon + its margin + width of search bar */
+}
+
+.searchbar {
+    position: absolute;
+    right: 0;
+    width: 200px;
+    height: 30px;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+
+.searchContainer.searchActive .searchbar {
+    transform: translateX(0);
+}
+
+.searchbar input {
+    width: 100%;
+    height: 100%;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    outline: none;
 }

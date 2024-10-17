@@ -1,33 +1,32 @@
-import { Github } from "@medusajs/icons"
-import { Button, Heading } from "@medusajs/ui"
+import { Button } from "@medusajs/ui"
+import styles from "./style.module.css";
 
 const Hero = () => {
   return (
-    <div className="h-[75vh] w-full border-b border-ui-border-base relative bg-ui-bg-subtle">
-      <div className="absolute inset-0 z-10 flex flex-col justify-center items-center text-center small:p-32 gap-6">
-        <span>
-          <Heading
-            level="h1"
-            className="text-3xl leading-10 text-ui-fg-base font-normal"
-          >
-            Ecommerce Starter Template
-          </Heading>
-          <Heading
-            level="h2"
-            className="text-3xl leading-10 text-ui-fg-subtle font-normal"
-          >
-            Powered by Medusa and Next.js
-          </Heading>
-        </span>
-        <a
-          href="https://github.com/medusajs/nextjs-starter-medusa"
-          target="_blank"
-        >
-          <Button variant="secondary">
-            View on GitHub
-            <Github />
-          </Button>
-        </a>
+    <div className={styles.mainBanner}>
+      <video 
+        id={styles.videoPlayer} 
+        autoPlay 
+        loop 
+        muted 
+        preload="metadata" 
+        playsInline 
+        src="/vid/banner.mp4" 
+        x-webkit-airplay="allow"
+      />
+      <div className={styles.blurredPanel}>
+        <div className={styles.contentWrapper}>
+          <div className={styles.contentHeader}>
+              <div className={styles.bphtitle}> Flow</div>
+              <Button variant="primary" className={styles.getItNowButton}>
+                Get it Now
+              </Button>
+            
+          </div>
+          <div className={styles.contentbody}>
+            Get our new effect modulation plugin for a very affordable price right now, check the offer.
+          </div>
+        </div>
       </div>
     </div>
   )

@@ -1,0 +1,78 @@
+
+
+.mainBanner{
+    width: 100%;
+    position: relative;
+    background-position: center;
+    top: 0px;
+    height: 80vh;
+}
+
+#videoPlayer{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.blurredPanel {
+    position: absolute;
+    bottom: 10vh;
+    width : 30vw;
+    left: 10vw;
+    background: rgba(50, 50, 50, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .contentWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 80%;
+    width: 90%;
+  }
+  
+.contentHeader{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+}
+  
+.bphtitle{
+    color: white;
+    font-size: larger;
+}
+
+  .getItNowButton {
+    position: absolute;
+    background-color: white;
+    right: 0px;
+    color: black;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: flex-start;
+    white-space: nowrap;
+  }
+  
+  .getItNowButton:hover {
+    background-color: #f0f0f0;
+  }
+
+  .contentbody{
+    color: white;
+    margin-top: 20px;
+    font-size: 14px;
+    font-weight: 100;
+
+  }
