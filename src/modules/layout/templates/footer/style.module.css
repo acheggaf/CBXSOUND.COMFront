@@ -1,0 +1,17 @@
+.logoimg {
+    background-image: url("/img/cbxlogowhite.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    display: block;
+    height: 37px;
+    width: 94px;
+    position: relative;
+    left: Opx;
+}
+
+.textsm{
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 100;
+}

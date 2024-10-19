@@ -16,7 +16,7 @@ export default async function Nav() {
         <a href="/#" className={styles.navlink}>Assistance</a>
       </div>
       <div className={styles.iconHolder}>
-        <a href="/#" className={`${styles.navicon} ${styles.userlogin}`}></a>
+        <a href="/account" className={`${styles.navicon} ${styles.userlogin}`}></a>
         <div className={`${styles.navicon} ${styles.cart}`}></div>
         <SearchBar />
       </div>

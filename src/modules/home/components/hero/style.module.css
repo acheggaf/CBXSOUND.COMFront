@@ -5,7 +5,7 @@
     position: relative;
     background-position: center;
     top: 0px;
-    height: 80vh;
+    height: 85vh;
 }
 
 #videoPlayer{
@@ -16,14 +16,14 @@
 
 .blurredPanel {
     position: absolute;
-    bottom: 10vh;
-    width : 30vw;
-    left: 10vw;
-    background: rgba(50, 50, 50, 0.2);
+    bottom: calc(50% - 8vh);
+    width : 24vw;
+    height: 16vh;
+    left: calc(50% - 12vw);
+    background: rgba(158, 158, 158, 0.1);
     backdrop-filter: blur(10px);
     padding: 20px;
     border-radius: 10px;
-    max-width: 400px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -35,7 +35,7 @@
     justify-content: space-between;
     align-items: flex-start;
     height: 80%;
-    width: 90%;
+    width: 96%;
   }
   
 .contentHeader{
@@ -48,31 +48,31 @@
   
 .bphtitle{
     color: white;
-    font-size: larger;
+    font-size: 28px;
+    font-weight: 600;
 }
 
-  .getItNowButton {
-    position: absolute;
-    background-color: white;
-    right: 0px;
-    color: black;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    align-self: flex-start;
-    white-space: nowrap;
-  }
-  
-  .getItNowButton:hover {
-    background-color: #f0f0f0;
-  }
+.getItNowButton {
+  position: absolute;
+  background-color: white;
+  right: 0px;
+  color: black;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: flex-start;
+  white-space: nowrap;
+}
 
-  .contentbody{
-    color: white;
-    margin-top: 20px;
-    font-size: 14px;
-    font-weight: 100;
-
-  }
+.getItNowButton:hover {
+  background-color: #f0f0f0;
+}
+.contentbody{
+  color: white;
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 100;
+  text-wrap: wrap;
+}

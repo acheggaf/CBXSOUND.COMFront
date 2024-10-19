@@ -1,18 +1,18 @@
 import { Region } from "@medusajs/medusa"
-
 import ProductRail from "@modules/home/components/featured-products/product-rail"
-import { ProductCollectionWithPreviews } from "types/global"
+import { FrontPagePlugins } from "types/global"
+import styles from "./style.module.css"
 
-export default async function FeaturedProducts({
-  collections,
-  region,
+export default function FeaturedProducts({
+  plugins
 }: {
-  collections: ProductCollectionWithPreviews[]
-  region: Region
+  plugins: FrontPagePlugins[]
 }) {
-  return collections.map((collection) => (
-    <li key={collection.id}>
-      <ProductRail collection={collection} region={region} />
-    </li>
-  ))
+  return (
+    <div className={styles.featuredProductsGrid}>
+      {plugins.map((collection) => (
+        <ProductRail key={collection.id} collection={collection} />
+      ))}
+    </div>
+  )
 }

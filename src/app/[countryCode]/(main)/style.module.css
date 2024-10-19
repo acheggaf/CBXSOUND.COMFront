@@ -1,0 +1,9 @@
+.featuredProductsContainer {
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+    padding-bottom: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }

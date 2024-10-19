@@ -9,6 +9,14 @@ export type FeaturedProduct = {
   thumbnail?: string
 }
 
+export type FrontPagePlugins = {
+  id: number
+  pos: number
+  title: string
+  description: string
+  image_url: string
+}
+
 export type ProductPreviewType = {
   id: string
   title: string

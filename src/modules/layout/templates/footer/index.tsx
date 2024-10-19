@@ -1,150 +1,84 @@
-import { Text, clx } from "@medusajs/ui"
-
 import { getCategoriesList, getCollectionsList } from "@lib/data"
-
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import MedusaCTA from "@modules/layout/components/medusa-cta"
+import styles from "./style.module.css"
+import { FaCcVisa, FaPaypal, FaYoutube, FaLinkedin, FaInstagram  } from "react-icons/fa";
+import { RiMastercardFill } from "react-icons/ri";
+import { SiAmericanexpress } from "react-icons/si";
 
 export default async function Footer() {
-  const { collections } = await getCollectionsList(0, 6)
-  const { product_categories } = await getCategoriesList(0, 6)
+  const { collections } = await getCollectionsList(0, 4)
+  const { product_categories } = await getCategoriesList(0, 4)
 
   return (
-    <footer className="border-t border-ui-border-base w-full">
+    <footer className="bg-black text-white w-full">
       <div className="content-container flex flex-col w-full">
-        <div className="flex flex-col gap-y-6 xsmall:flex-row items-start justify-between py-40">
-          <div>
-            <LocalizedClientLink
-              href="/"
-              className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase"
-            >
-              CBX Sound
-            </LocalizedClientLink>
-          </div>
-          <div className="text-small-regular gap-10 md:gap-x-16 grid grid-cols-2 sm:grid-cols-3">
-            {product_categories && product_categories?.length > 0 && (
-              <div className="flex flex-col gap-y-2">
-                <span className="txt-small-plus txt-ui-fg-base">
-                  Categories
-                </span>
-                <ul className="grid grid-cols-1 gap-2" data-testid="footer-categories">
-                  {product_categories?.slice(0, 6).map((c) => {
-                    if (c.parent_category) {
-                      return
-                    }
-
-                    const children =
-                      c.category_children?.map((child) => ({
-                        name: child.name,
-                        handle: child.handle,
-                        id: child.id,
-                      })) || null
-
-                    return (
-                      <li
-                        className="flex flex-col gap-2 text-ui-fg-subtle txt-small"
-                        key={c.id}
-                      >
-                        <LocalizedClientLink
-                          className={clx(
-                            "hover:text-ui-fg-base",
-                            children && "txt-small-plus"
-                          )}
-                          href={`/categories/${c.handle}`}
-                          data-testid="category-link"
-                        >
-                          {c.name}
-                        </LocalizedClientLink>
-                        {children && (
-                          <ul className="grid grid-cols-1 ml-3 gap-2">
-                            {children &&
-                              children.map((child) => (
-                                <li key={child.id}>
-                                  <LocalizedClientLink
-                                    className="hover:text-ui-fg-base"
-                                    href={`/categories/${child.handle}`}
-                                    data-testid="category-link"
-                                  >
-                                    {child.name}
-                                  </LocalizedClientLink>
-                                </li>
-                              ))}
-                          </ul>
-                        )}
-                      </li>
-                    )
-                  })}
-                </ul>
-              </div>
-            )}
-            {collections && collections.length > 0 && (
-              <div className="flex flex-col gap-y-2">
-                <span className="txt-small-plus txt-ui-fg-base">
-                  Collections
-                </span>
-                <ul
-                  className={clx(
-                    "grid grid-cols-1 gap-2 text-ui-fg-subtle txt-small",
-                    {
-                      "grid-cols-2": (collections?.length || 0) > 3,
-                    }
-                  )}
-                >
-                  {collections?.slice(0, 6).map((c) => (
-                    <li key={c.id}>
-                      <LocalizedClientLink
-                        className="hover:text-ui-fg-base"
-                        href={`/collections/${c.handle}`}
-                      >
-                        {c.title}
-                      </LocalizedClientLink>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            <div className="flex flex-col gap-y-2">
-              <span className="txt-small-plus txt-ui-fg-base">Medusa</span>
-              <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
-                <li>
-                  <a
-                    href="https://github.com/medusajs"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    GitHub
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://docs.medusajs.com"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    Documentation
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://github.com/medusajs/nextjs-starter-medusa"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    Source code
-                  </a>
-                </li>
-              </ul>
+        <div className="flex flex-col gap-y-8 md:flex-row items-start justify-between py-16">
+          {/* CBX Column */}
+          <div className="flex flex-col gap-y-4 md:w-1/3">
+              <div className={styles.logoimg}></div>
+            <p className={styles.textsm}>Some of our payment methods are :</p>
+            <div className="flex space-x-4">
+              <FaCcVisa size={30} />
+              <RiMastercardFill size={30} />
+              <FaPaypal size={28} />
+              <SiAmericanexpress size={24} /> 
+            </div>
+            <h3 className="text-lg font-semibold mt-4">Social Media</h3>
+            <div className="flex space-x-4">
+              <FaYoutube size={24} />
+              <FaLinkedin size={22} />
+              <FaInstagram size={24} />
             </div>
           </div>
+
+          {/* Products Column */}
+          <div className="flex flex-col gap-y-4 md:w-1/3">
+            <h3 className="text-lg font-semibold">Products</h3>
+            <ul className="grid grid-cols-1 gap-2">
+              {collections?.slice(0, 4).map((c) => (
+                <li key={c.id}>
+                  <LocalizedClientLink
+                    className="hover:text-gray-300 text-sm"
+                    href={`/collections/${c.handle}`}
+                  >
+                    {c.title}
+                  </LocalizedClientLink>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* About us Column */}
+          <div className="flex flex-col gap-y-4 md:w-1/3">
+            <h3 className="text-lg font-semibold">About us</h3>
+            <ul className="grid grid-cols-1 gap-2">
+              <li>
+                <LocalizedClientLink href="/contact" className="hover:text-gray-300 text-sm">
+                  Contact
+                </LocalizedClientLink>
+              </li>
+              <li>
+                <LocalizedClientLink href="/community" className="hover:text-gray-300 text-sm">
+                  Community
+                </LocalizedClientLink>
+              </li>
+              <li>
+                <LocalizedClientLink href="/company" className="hover:text-gray-300 text-sm">
+                  Company
+                </LocalizedClientLink>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div className="flex w-full mb-16 justify-between text-ui-fg-muted">
-          <Text className="txt-compact-small">
+
+        <div className="flex w-full mb-8 justify-between text-gray-400 border-t border-gray-700 pt-8">
+          <p className="text-sm">
             © {new Date().getFullYear()} CBX Sound. All rights reserved.
-          </Text>
-          <MedusaCTA />
+          </p>
+          <div className="flex space-x-4 text-sm">
+            <a href="#" className="hover:underline">Legal notices</a>
+            <a href="#" className="hover:underline">Data privacy policy</a>
+          </div>
         </div>
       </div>
     </footer>

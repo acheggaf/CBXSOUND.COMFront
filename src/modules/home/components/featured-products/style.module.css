@@ -1,0 +1,10 @@
+.featuredProductsGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6rem;
+  }
+  @media (min-width: 768px) {
+    .featuredProductsGrid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }

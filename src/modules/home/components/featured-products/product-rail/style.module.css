@@ -1,0 +1,44 @@
+.productRail {
+    display: flex;
+    flex-direction: column;
+    width: 28vw;
+  }
+  .productRailHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .productTitle {
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 5px;
+  }
+  .viewAllLink {
+    color: #3b82f6;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .viewAllLink:hover {
+    color: #2563eb;
+  }
+  .productImageContainer {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+  }
+  .productImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 1rem;
+  }
+
+  .description{
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    text-align: center;
+  }
