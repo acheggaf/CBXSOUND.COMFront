@@ -1,4 +1,4 @@
-import { getCategoriesList, getCollectionsList } from "@lib/data"
+import { getCategoriesList, getProductsList } from "@lib/data"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import styles from "./style.module.css"
 import { FaCcVisa, FaPaypal, FaYoutube, FaLinkedin, FaInstagram  } from "react-icons/fa";
@@ -6,11 +6,15 @@ import { RiMastercardFill } from "react-icons/ri";
 import { SiAmericanexpress } from "react-icons/si";
 
 export default async function Footer() {
-  const { collections } = await getCollectionsList(0, 4)
+  const { response: { products } } = await getProductsList({
+    pageParam: 0,
+    queryParams: { limit: 4 },
+    countryCode: 'us' // You might want to make this dynamic based on the user's location
+  })
   const { product_categories } = await getCategoriesList(0, 4)
-
+  
   return (
-    <footer className="bg-black text-white w-full">
+    <footer className={`bg-black text-white w-full ${styles.footermargin}`}>
       <div className="content-container flex flex-col w-full">
         <div className="flex flex-col gap-y-8 md:flex-row items-start justify-between py-16">
           {/* CBX Column */}
@@ -21,8 +25,8 @@ export default async function Footer() {
               <FaCcVisa size={30} />
               <RiMastercardFill size={30} />
               <FaPaypal size={28} />
-              <SiAmericanexpress size={24} /> 
-            </div>
+              <SiAmericanexpress size={24} />
+             </div>
             <h3 className="text-lg font-semibold mt-4">Social Media</h3>
             <div className="flex space-x-4">
               <FaYoutube size={24} />
@@ -30,24 +34,24 @@ export default async function Footer() {
               <FaInstagram size={24} />
             </div>
           </div>
-
+          
           {/* Products Column */}
           <div className="flex flex-col gap-y-4 md:w-1/3">
             <h3 className="text-lg font-semibold">Products</h3>
             <ul className="grid grid-cols-1 gap-2">
-              {collections?.slice(0, 4).map((c) => (
-                <li key={c.id}>
+              {products?.slice(0, 4).map((p) => (
+                <li key={p.id}>
                   <LocalizedClientLink
                     className="hover:text-gray-300 text-sm"
-                    href={`/collections/${c.handle}`}
+                    href={`/products/${p.handle}`}
                   >
-                    {c.title}
+                    {p.title}
                   </LocalizedClientLink>
                 </li>
               ))}
             </ul>
           </div>
-
+          
           {/* About us Column */}
           <div className="flex flex-col gap-y-4 md:w-1/3">
             <h3 className="text-lg font-semibold">About us</h3>
@@ -70,7 +74,7 @@ export default async function Footer() {
             </ul>
           </div>
         </div>
-
+        
         <div className="flex w-full mb-8 justify-between text-gray-400 border-t border-gray-700 pt-8">
           <p className="text-sm">
             © {new Date().getFullYear()} CBX Sound. All rights reserved.

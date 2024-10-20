@@ -29,6 +29,8 @@ const nextConfig = withStoreConfig({
   },
 })
 
+console.log(process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL)
+
 console.log("next.config.js", JSON.stringify(module.exports, null, 2))
 
 module.exports = nextConfig
