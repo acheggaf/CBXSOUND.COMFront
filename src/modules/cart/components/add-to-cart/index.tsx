@@ -5,7 +5,7 @@ import { Button } from "@medusajs/ui"
 import { isEqual } from "lodash"
 import { useParams } from "next/navigation"
 import { useEffect, useMemo, useRef, useState } from "react"
-
+import styles from "../../../../styles/global.module.css"
 import { addToCart } from "@modules/cart/actions"
 
 
@@ -88,15 +88,13 @@ export default function AddToCart({
 
   return (
     <>
-        <Button
+        <button
           onClick={handleAddToCart}
-          variant="primary"
-          className="w-full h-10"
-          isLoading={isAdding}
+          className={`${styles.custombutton} ${styles.blackbuton}`}
           data-testid="add-product-button"
         >
             Add To Cart
-        </Button>
+        </button>
     </>
   )
 }

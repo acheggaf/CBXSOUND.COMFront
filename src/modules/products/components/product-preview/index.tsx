@@ -10,6 +10,7 @@ import AddToCart from "@modules/cart/components/add-to-cart"
 import Image from "next/image"
 import PreviewPrice from "./price"
 import styles from "./style.module.css"
+import globalstyles from "../../../../styles/global.module.css"
 import { FaInfoCircle } from "react-icons/fa";
 
 
@@ -52,18 +53,16 @@ export default async function ProductPreview({
             fill
           />
         </div>
-        <Text className="text-xl font-bold mb-2" data-testid="product-title">{productPreview.title}</Text>
-        <Text className="text-sm mb-4">{productPreview.title || "Product description"}</Text>
-        <div className="flex justify-between items-center mb-4">
-          {cheapestPrice && <PreviewPrice price={cheapestPrice}/>}
-          <FaInfoCircle size={14} /> 
+        <div className={styles.contentholder}>
+          <Text className={`${styles.plugintitle} ${styles.alignText}`} data-testid="product-title">{productPreview.title}</Text>
+          <Text className={`${styles.plugindesc} ${styles.alignText}`}>{pricedProduct.description || "Product description"}</Text>
+          <div className="flex justify-between items-center mb-4">
+            {cheapestPrice && <PreviewPrice price={cheapestPrice}/>}
+            <FaInfoCircle size={14} /> 
+          </div>
+          <button className={`${globalstyles.custombutton} ${globalstyles.whitebutton}`}>Learn more</button>
+          <AddToCart product={pricedProduct} />
         </div>
-        <div className="flex space-x-2 mb-4">
-          <button className="bg-white text-black px-4 py-2 rounded flex-grow">Learn more</button>
-          <button className="bg-white text-black px-4 py-2 rounded flex-grow">Free trial</button>
-        </div>
-        <AddToCart product={pricedProduct} />
-        <button className="bg-blue-600 text-white w-full py-2 rounded">Buy now</button>
       </div>
     </div>
   )

@@ -1,0 +1,19 @@
+.custombutton {
+    width: 100%;
+    font-size: 14px;
+    padding: 10px;
+    margin: auto 0 10px 0;
+    border-radius: 500px; /* This creates a pill shape */
+    height: 40px; /* Explicitly set height for consistent border-radius */
+    line-height: 20px; /* Center text vertically */
+}
+.blackbuton{
+    background-color: black;
+    color: white;
+}
+
+.whitebutton {
+    background-color: white;
+    color: black;
+    border: 1px solid black; /* Corrected border property */
+}

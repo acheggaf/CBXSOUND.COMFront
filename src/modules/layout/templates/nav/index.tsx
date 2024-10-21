@@ -1,6 +1,7 @@
 import styles from "./style.module.css";
 import { listRegions } from "@lib/data";
 import SearchBar from "./search-bar";
+import CartButton from "@modules/layout/components/cart-button"
 
 export default async function Nav() {
   const regions = await listRegions().then((regions) => regions);
@@ -17,7 +18,7 @@ export default async function Nav() {
       </div>
       <div className={styles.iconHolder}>
         <a href="/account" className={`${styles.navicon} ${styles.userlogin}`}></a>
-        <a href="/cart"  className={`${styles.navicon} ${styles.cart}`}></a>
+        <div  className={`${styles.navicon} ${styles.cart}`}><CartButton /></div>
         <SearchBar />
       </div>
     </div>

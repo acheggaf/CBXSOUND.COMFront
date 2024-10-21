@@ -1,0 +1,26 @@
+.contentcontainer {
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    max-width: 1440px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    display: flex;
+    flex-direction: row;
+    margin-top: 10vh;
+}
+
+.storepagetitle{
+    font-size: 50px;
+    font-weight: bold;
+    position: relative;
+}
+
+.productgrid{
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-column-gap: 30px;
+    row-gap: 2rem;
+    width: 100%;
+    display: grid;
+    margin-top: 60px;
+}

@@ -7,6 +7,7 @@
     top: 0;
     left: 0;
     z-index: 1000;
+    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.3);
 }
 
 .logoholder {
@@ -66,9 +67,7 @@
     cursor: pointer;
 }
 
-.navicon:hover {
-    filter: invert(42%) sepia(93%);
-}
+
 
 .userlogin {
     background-image: url("/img/user.svg");
