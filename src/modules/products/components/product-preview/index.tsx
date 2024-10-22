@@ -60,7 +60,7 @@ export default async function ProductPreview({
             {cheapestPrice && <PreviewPrice price={cheapestPrice}/>}
             <FaInfoCircle size={14} /> 
           </div>
-          <button className={`${globalstyles.custombutton} ${globalstyles.whitebutton}`}>Learn more</button>
+          <a href={`/products/${pricedProduct.handle}`} className={`${globalstyles.custombutton} ${globalstyles.whitebutton}`}>Learn more</a>
           <AddToCart product={pricedProduct} />
         </div>
       </div>

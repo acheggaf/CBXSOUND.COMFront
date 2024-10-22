@@ -7,10 +7,10 @@
     align-items: center;
 }
 
-.productsbanner{
+.assistancebanner{
     height: 40vh;
     width: 100%;
-    background:  url('/img/bannerwb.png') center center no-repeat;
+    background:  url('/img/assistance_banner.jpg') center center no-repeat;
     background-size: cover;
     position: relative;
     display: flex;
@@ -20,30 +20,16 @@
     color: white;
 }
 
-.productsbanner h2{
+.assistancebanner h2{
     font-size: 4rem;
     font-weight: bold;
 }
 
-.productsbanner p{
+.assistancebanner p{
     font-size: 1.5rem;
     font-weight: 300;
 }
 
-.storepagetitle{
-    font-size: 50px;
-    font-weight: bold;
-    position: relative;
-}
-
-.productgrid{
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-column-gap: 30px;
-    row-gap: 2rem;
-    width: 100%;
-    display: grid;
-    margin-top: 60px;
-}
 
 .content{
     margin-top: 8vh;

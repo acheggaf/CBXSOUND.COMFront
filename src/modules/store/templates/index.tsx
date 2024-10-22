@@ -19,8 +19,11 @@ const StoreTemplate = ({
 
   return (
     <div className={styles.contentcontainer} data-testid="category-container">
-
-      <div className="w-full">
+      <div className={styles.productsbanner}>
+        <h2>Products</h2>
+        <p>Browse our collection of effects plugins and synthesizers</p>
+      </div>
+      <div className={styles.content}>
         <div className="mb-8 text-2xl-semi">
           <h1 className={styles.storepagetitle}>Plugins</h1>
         </div>

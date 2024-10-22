@@ -13,8 +13,8 @@ export default async function Nav() {
       </div>
       <div className={styles.navlinks}>
         <a href="/products" className={styles.navlink}>Products</a>
-        <a href="/#" className={styles.navlink}>Community</a>
-        <a href="/#" className={styles.navlink}>Assistance</a>
+        <a href="/community" className={styles.navlink}>Community</a>
+        <a href="/assistance" className={styles.navlink}>Assistance</a>
       </div>
       <div className={styles.iconHolder}>
         <a href="/account" className={`${styles.navicon} ${styles.userlogin}`}></a>
