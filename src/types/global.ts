@@ -17,6 +17,12 @@ export type FrontPagePlugins = {
   image_url: string
 }
 
+export type ProductArticle = {
+  id: string
+  banner_image: string
+  html_content: string
+}
+
 export type ProductPreviewType = {
   id: string
   title: string

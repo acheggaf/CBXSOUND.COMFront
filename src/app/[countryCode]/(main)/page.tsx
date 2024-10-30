@@ -14,7 +14,7 @@ export default async function Home({
 }: {
   params: { countryCode: string }
 }) {
-  const { frontpage } = await getFrontpageData(2);
+  const { frontpage } = await getFrontpageData(4);
   return (
     <>
       <Hero />

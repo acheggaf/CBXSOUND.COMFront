@@ -16,7 +16,7 @@ import { cache } from "react"
 import sortProducts from "@lib/util/sort-products"
 import transformProductPreview from "@lib/util/transform-product-preview"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
-import { ProductCategoryWithChildren, ProductPreviewType, FrontPagePlugins } from "types/global"
+import { ProductCategoryWithChildren, ProductPreviewType, FrontPagePlugins, ProductArticle } from "types/global"
 
 import { medusaClient } from "@lib/config"
 import medusaError from "@lib/util/medusa-error"
@@ -586,15 +586,27 @@ export const retrieveCollection = cache(async function (id: string) {
 export const getFrontpageData = cache(
   async function (amount: number = 10): Promise<{ frontpage: FrontPagePlugins[] }> {
     try {
-      const response = await medusaClient.client.request("GET", "/store/frontpage", {
-        params: { amount },
-      });
+      const response = await medusaClient.client.request("GET", `/store/frontpage?amount=${amount}`);
       
       return {
         frontpage: response.frontpage as FrontPagePlugins[]
       };
     } catch (error) {
       console.error("Error fetching frontpage data:", error);
+      throw error;
+    }
+  }
+);
+
+export const getProductArticleById = cache(
+  async function (id: string): Promise<{ productArticle: any }> {
+    try {
+      const response = await medusaClient.client.request("GET", `/store/productarticle?id=${id}`);
+      return {
+        productArticle: response.product
+      };
+    } catch (error) {
+      console.error("Error fetching ProductArticle data:", error);
       throw error;
     }
   }

@@ -1,0 +1,11 @@
+.contentContainer{
+    width: 100%;
+}
+
+.bannerimage{
+    width: 100%;
+    height: auto;
+    position: relative;
+    top: 0px;
+    background-position: center;
+}

@@ -1,68 +1,60 @@
+'use client'
 import { Region } from "@medusajs/medusa"
-import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
-import React, { Suspense } from "react"
+import { ProductArticle } from "types/global"
+import React, { useEffect, useState } from "react"
+import styles from "./style.module.css"
+import DOMPurify from 'dompurify'
 
-import ImageGallery from "@modules/products/components/image-gallery"
-import ProductActions from "@modules/products/components/product-actions"
-import ProductOnboardingCta from "@modules/products/components/product-onboarding-cta"
-import ProductTabs from "@modules/products/components/product-tabs"
-import RelatedProducts from "@modules/products/components/related-products"
-import ProductInfo from "@modules/products/templates/product-info"
-import SkeletonRelatedProducts from "@modules/skeletons/templates/skeleton-related-products"
-import { notFound } from "next/navigation"
-import ProductActionsWrapper from "./product-actions-wrapper"
+export const isServer = typeof window === "undefined"
 
 type ProductTemplateProps = {
-  product: PricedProduct
+  productArticle: ProductArticle
   region: Region
   countryCode: string
 }
 
 const ProductTemplate: React.FC<ProductTemplateProps> = ({
-  product,
+  productArticle,
   region,
   countryCode,
 }) => {
-  if (!product || !product.id) {
-    return notFound()
+  const [sanitizedContent, setSanitizedContent] = useState("")
+
+  useEffect(() => {
+    // Move sanitization to useEffect to ensure it runs client-side
+    if (productArticle?.html_content) {
+      const cleanContent = DOMPurify.sanitize(productArticle.html_content)
+      setSanitizedContent(cleanContent)
+    }
+  }, [productArticle?.html_content])
+
+  if (!productArticle || !productArticle.id) {
+    return null
   }
+
+  const SafeExample: React.FC = () => (
+    <div
+      className="safe-example"
+      dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+    />
+  )
 
   return (
     <>
-      <div
-        className="content-container flex flex-col small:flex-row small:items-start py-6 relative"
-        data-testid="product-container"
-      >
-        <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-6">
-          <ProductInfo product={product} />
-          <ProductTabs product={product} />
-        </div>
-        <div className="block w-full relative">
-          <ImageGallery images={product?.images || []} />
-        </div>
-        <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-12">
-          <ProductOnboardingCta />
-          <Suspense
-            fallback={
-              <ProductActions
-                disabled={true}
-                product={product}
-                region={region}
-              />
-            }
-          >
-            <ProductActionsWrapper id={product.id} region={region} />
-          </Suspense>
-        </div>
+      <div className={styles.contentContainer}>
+        {productArticle.banner_image && (
+          <img
+            src={productArticle.banner_image}
+            className={styles.bannerimage}
+            alt={`Product image ${productArticle.id + 1}`}
+            sizes="(max-width: 576px) 280px, (max-width: 768px) 360px, (max-width: 992px) 480px, 800px"
+            style={{
+              objectFit: "cover",
+            }}
+          />
+        )}
       </div>
-      <div
-        className="content-container my-16 small:my-32"
-        data-testid="related-products-container"
-      >
-        <Suspense fallback={<SkeletonRelatedProducts />}>
-          <RelatedProducts product={product} countryCode={countryCode} />
-        </Suspense>
-      </div>
+      <SafeExample />
     </>
   )
 }
