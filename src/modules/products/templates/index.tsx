@@ -19,28 +19,65 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
   countryCode,
 }) => {
   const [sanitizedContent, setSanitizedContent] = useState("")
+  const [processedStyles, setProcessedStyles] = useState("")
 
   useEffect(() => {
-    // Move sanitization to useEffect to ensure it runs client-side
-    if (productArticle?.html_content) {
-      const cleanContent = DOMPurify.sanitize(productArticle.html_content)
-      setSanitizedContent(cleanContent)
+    if (!productArticle) return
+
+    // Configure DOMPurify to allow onclick attribute
+    const purifyConfig = {
+      ADD_TAGS: ['style', 'script'],
+      ADD_ATTR: ['onclick', 'type'], // Add onclick to allowed attributes
+      FORCE_BODY: true,
     }
-  }, [productArticle?.html_content])
+
+    try {
+      // Process HTML content
+      if (productArticle.html_content) {
+        const cleanContent = DOMPurify.sanitize(
+          productArticle.html_content,
+          purifyConfig
+        )
+        setSanitizedContent(cleanContent)
+      }
+
+      // Process CSS content
+      if (productArticle.css_content) {
+        const scopedId = `style-${productArticle.id}`
+        const scopedCSS = productArticle.css_content.replace(
+          /([^\r\n,{}]+)(,(?=[^}]*{)|\s*{)/g,
+          `.scoped-${scopedId} $1$2`
+        )
+        setProcessedStyles(scopedCSS)
+      }
+
+      // Add the JavaScript function to window scope
+      if (productArticle.js_content) {
+        const script = document.createElement('script')
+        script.type = 'text/javascript'
+        script.textContent = productArticle.js_content
+        document.body.appendChild(script)
+      }
+    } catch (error) {
+      console.error('Error processing content:', error)
+    }
+  }, [productArticle])
 
   if (!productArticle || !productArticle.id) {
     return null
   }
 
-  const SafeExample: React.FC = () => (
-    <div
-      className="safe-example"
-      dangerouslySetInnerHTML={{ __html: sanitizedContent }}
-    />
-  )
+  const scopedId = `style-${productArticle.id}`
 
   return (
     <>
+      {/* Inject scoped styles */}
+      {processedStyles && (
+        <style>
+          {processedStyles}
+        </style>
+      )}
+
       <div className={styles.contentContainer}>
         {productArticle.banner_image && (
           <img
@@ -54,7 +91,10 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
           />
         )}
       </div>
-      <SafeExample />
+
+      <div className={`safe-example scoped-${scopedId}`}>
+        <div dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
+      </div>
     </>
   )
 }

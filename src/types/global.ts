@@ -21,6 +21,8 @@ export type ProductArticle = {
   id: string
   banner_image: string
   html_content: string
+  css_content: string
+  js_content: string
 }
 
 export type ProductPreviewType = {
