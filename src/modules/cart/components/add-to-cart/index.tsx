@@ -8,10 +8,13 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import styles from "../../../../styles/global.module.css"
 import { addToCart } from "@modules/cart/actions"
 
-
 export default function AddToCart({
   product,
-}: {product: PricedProduct}) {
+  message = "Add to Cart"  // Added optional message parameter with default value
+}: {
+  product: PricedProduct
+  message?: string  // Added optional message type
+}) {
   const [options, setOptions] = useState<Record<string, string>>({})
   const [isAdding, setIsAdding] = useState(false)
 
@@ -71,7 +74,7 @@ export default function AddToCart({
 
   // add the selected variant to the cart
   const handleAddToCart = async () => {
-    console.log("Varaint is ");
+    console.log("Variant is ");
     console.log(variant);
     if (!variant?.id) return null
 
@@ -88,13 +91,13 @@ export default function AddToCart({
 
   return (
     <>
-        <button
-          onClick={handleAddToCart}
-          className={`${styles.custombutton} ${styles.blackbuton}`}
-          data-testid="add-product-button"
-        >
-            Add To Cart
-        </button>
+      <button
+        onClick={handleAddToCart}
+        className={`${styles.custombutton} ${styles.blackbuton}`}
+        data-testid="add-product-button"
+      >
+        {message}  {/* Using the message parameter instead of hardcoded text */}
+      </button>
     </>
   )
 }
