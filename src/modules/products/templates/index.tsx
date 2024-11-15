@@ -5,6 +5,7 @@ import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 import { getProductPrice } from "@lib/util/get-product-price"
 import React, { useEffect, useState } from "react"
 import AddToCart from "@modules/cart/components/add-to-cart"
+import { FaPaypal, FaCcVisa, FaCcMastercard, FaCcStripe, FaGooglePay, FaApplePay } from "react-icons/fa"
 import styles from "./style.module.css"
 import DOMPurify from 'dompurify'
 
@@ -30,13 +31,11 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
   useEffect(() => {
     if (!productArticle) return
 
-    // Configure DOMPurify to allow onclick attribute
     const purifyConfig = {
       ADD_TAGS: ['style', 'script', 'iframe'],
       ADD_ATTR: [
         'onclick',
         'type',
-        // Common iframe attributes
         'src',
         'frameborder',
         'allowfullscreen',
@@ -49,7 +48,6 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
     }
 
     try {
-      // Process HTML content
       if (productArticle.html_content) {
         const cleanContent = DOMPurify.sanitize(
           productArticle.html_content,
@@ -58,7 +56,6 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
         setSanitizedContent(cleanContent)
       }
 
-      // Process CSS content
       if (productArticle.css_content) {
         const scopedId = `style-${productArticle.id}`
         const scopedCSS = productArticle.css_content.replace(
@@ -68,7 +65,6 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
         setProcessedStyles(scopedCSS)
       }
 
-      // Add the JavaScript function to window scope
       if (!isServer && productArticle.js_content) {
         const script = document.createElement('script')
         script.type = 'text/javascript'
@@ -103,7 +99,6 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
 
   return (
     <>
-      {/* Inject scoped styles */}
       {processedStyles && (
         <style>
           {processedStyles}
@@ -141,6 +136,41 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
 
       <div className={`safe-example scoped-${scopedId}`}>
         <div dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
+      </div>
+
+
+      {/*-------------------------------------------------------------*/}
+
+
+
+
+
+
+      <div className={styles.purshase_section}>
+        <div className={styles.purshase_product_title}>Get yours Now!</div>
+        <div className={styles.purshase_button}>
+          <AddToCart product={product!} message={`Purchase ${price ? price : ''}`}/>
+        </div>
+        <div className={styles.payment_ways}>
+          <div className={styles.payment_icon}>
+            <FaPaypal size={40} />
+          </div>
+          <div className={styles.payment_icon}>
+            <FaCcStripe size={40} />
+          </div>
+          <div className={styles.payment_icon}>
+            <FaCcVisa size={40} />
+          </div>
+          <div className={styles.payment_icon}>
+            <FaCcMastercard size={40} />
+          </div>
+          <div className={styles.payment_icon}>
+            <FaGooglePay size={40} />
+          </div>
+          <div className={styles.payment_icon}>
+            <FaApplePay size={40} />
+          </div>
+        </div>
       </div>
     </>
   )

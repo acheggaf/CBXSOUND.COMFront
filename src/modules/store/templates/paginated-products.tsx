@@ -59,6 +59,8 @@ export default async function PaginatedProducts({
     countryCode,
   })
 
+  products.reverse();
+
   const totalPages = Math.ceil(count / PRODUCT_LIMIT)
 
   return (
