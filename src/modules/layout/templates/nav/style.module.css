@@ -82,6 +82,7 @@
 
 .search {
     background-image: url("/img/search.svg");
+    bottom: 5px;
 }
 
 .searchContainer {
