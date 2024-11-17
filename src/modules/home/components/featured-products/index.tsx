@@ -8,10 +8,13 @@ export default function FeaturedProducts({
 }: {
   plugins: FrontPagePlugins[]
 }) {
+  // Sort plugins by their position
+  const sortedPlugins = [...plugins].sort((a, b) => a.pos - b.pos)
+
   return (
     <div className={styles.featuredProductsGrid}>
-      {plugins.map((collection) => (
-        <ProductRail key={collection.id} collection={collection} />
+      {sortedPlugins.map((plugin) => (
+        <ProductRail key={plugin.id} collection={plugin} />
       ))}
     </div>
   )
