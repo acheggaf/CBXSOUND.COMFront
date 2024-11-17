@@ -5,7 +5,7 @@ import { Cart } from "@medusajs/medusa"
 import { Button } from "@medusajs/ui"
 import { useParams, usePathname } from "next/navigation"
 import { Fragment, useEffect, useRef, useState } from "react"
-
+import { ShoppingCart } from "lucide-react"
 import { formatAmount } from "@lib/util/prices"
 import DeleteButton from "@modules/common/components/delete-button"
 import LineItemOptions from "@modules/common/components/line-item-options"
@@ -77,7 +77,20 @@ const CartDropdown = ({
       onMouseLeave={close}
     >
       <Popover className="relative h-full">
-
+        <Popover.Button className="h-full">
+          <LocalizedClientLink
+            className="hover:text-ui-fg-base relative inline-flex items-center"
+            href="/cart"
+            data-testid="nav-cart-link"
+          >
+            <ShoppingCart size={20} />
+            {totalItems > 0 && (
+              <div className="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-black text-white flex items-center justify-center text-xs">
+                {totalItems}
+              </div>
+            )}
+          </LocalizedClientLink>
+        </Popover.Button>
         <Transition
           show={cartDropdownOpen}
           as={Fragment}

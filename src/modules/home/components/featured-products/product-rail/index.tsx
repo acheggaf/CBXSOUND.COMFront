@@ -7,10 +7,10 @@ export default function ProductRail({
 }: {
   collection: FrontPagePlugins
 }) {
-  const { id, pos, title, description, image_url } = collection
+  const { id, pos, title, description, image_url, handle } = collection
   
   return (
-    <a href={image_url} className={styles.productRail}>
+    <a href={`/products/${handle}`} className={styles.productRail}>
 
       <div className={styles.productImageContainer}>
         <img

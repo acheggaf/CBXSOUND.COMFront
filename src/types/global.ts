@@ -15,6 +15,7 @@ export type FrontPagePlugins = {
   title: string
   description: string
   image_url: string
+  handle: string
 }
 
 export type ProductArticle = {
