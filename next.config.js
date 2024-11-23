@@ -7,6 +7,10 @@ const store = require("./store.config.json")
 const nextConfig = withStoreConfig({
   features: store.features,
   reactStrictMode: true,
+  env: {
+    // Convert boolean features to strings if they exist
+    FEATURE_SEARCH_ENABLED: String(store.features?.search?.enabled ?? false)
+  },
   images: {
     remotePatterns: [
       {
@@ -29,8 +33,7 @@ const nextConfig = withStoreConfig({
   },
 })
 
-console.log(process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL)
-
-console.log("next.config.js", JSON.stringify(module.exports, null, 2))
+console.log("BACKEND_URL:", process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL)
+console.log("Config:", JSON.stringify(nextConfig, null, 2))
 
 module.exports = nextConfig
