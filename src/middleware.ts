@@ -2,7 +2,7 @@ import { Region } from "@medusajs/medusa"
 import { notFound } from "next/navigation"
 import { NextRequest, NextResponse } from "next/server"
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000"
+const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
 const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "us"
 
 const regionMapCache = {
@@ -17,32 +17,26 @@ async function getRegionMap() {
     !regionMap.keys().next().value ||
     regionMapUpdated < Date.now() - 3600 * 1000
   ) {
-    try {
-      const response = await fetch(`${BACKEND_URL}/store/regions`, {
-        next: {
-          revalidate: 3600,
-          tags: ["regions"],
-        },
-      })
-      
-      const { regions } = await response.json()
+    // Fetch regions from Medusa
+    const { regions } = await fetch(`${BACKEND_URL}/store/regions`, {
+      next: {
+        revalidate: 3600,
+        tags: ["regions"],
+      },
+    }).then((res) => res.json())
 
-      if (!regions) {
-        return new Map()
-      }
-
-      regionMapCache.regionMap.clear()
-      regions.forEach((region: Region) => {
-        region.countries.forEach((c) => {
-          regionMapCache.regionMap.set(c.iso_2, region)
-        })
-      })
-
-      regionMapCache.regionMapUpdated = Date.now()
-    } catch (error) {
-      console.error("Error fetching regions:", error)
-      return new Map()
+    if (!regions) {
+      notFound()
     }
+
+    // Create a map of country codes to regions
+    regions.forEach((region: Region) => {
+      region.countries.forEach((c) => {
+        regionMapCache.regionMap.set(c.iso_2, region)
+      })
+    })
+
+    regionMapCache.regionMapUpdated = Date.now()
   }
 
   return regionMapCache.regionMap
@@ -53,73 +47,89 @@ async function getCountryCode(
   regionMap: Map<string, Region | number>
 ) {
   try {
+    let countryCode
+
     const vercelCountryCode = request.headers
       .get("x-vercel-ip-country")
       ?.toLowerCase()
 
-    if (vercelCountryCode && regionMap.has(vercelCountryCode)) {
-      return vercelCountryCode
+    // Get the first path segment, ensuring we don't include trailing slashes
+    const urlCountryCode = request.nextUrl.pathname.split("/")
+      .filter(segment => segment.length > 0)[0]?.toLowerCase()
+
+    if (urlCountryCode && regionMap.has(urlCountryCode)) {
+      countryCode = urlCountryCode
+    } else if (vercelCountryCode && regionMap.has(vercelCountryCode)) {
+      countryCode = vercelCountryCode
+    } else if (regionMap.has(DEFAULT_REGION)) {
+      countryCode = DEFAULT_REGION
+    } else if (regionMap.keys().next().value) {
+      countryCode = regionMap.keys().next().value
     }
 
-    return DEFAULT_REGION
+    return countryCode
   } catch (error) {
-    return DEFAULT_REGION
+    if (process.env.NODE_ENV === "development") {
+      console.error(
+        "Middleware.ts: Error getting the country code. Did you set up regions in your Medusa Admin and define a NEXT_PUBLIC_MEDUSA_BACKEND_URL environment variable?"
+      )
+    }
   }
 }
 
 export async function middleware(request: NextRequest) {
-  // Skip middleware for specific paths
-  if (
-    request.nextUrl.pathname.startsWith("/_next") ||
-    request.nextUrl.pathname.startsWith("/api") ||
-    request.nextUrl.pathname.includes("favicon.ico") ||
-    request.nextUrl.pathname.match(/\.(svg|png|jpg|jpeg|gif|webp|mp4|mp3)$/)
-  ) {
-    return NextResponse.next()
-  }
-
   const searchParams = request.nextUrl.searchParams
   const isOnboarding = searchParams.get("onboarding") === "true"
   const cartId = searchParams.get("cart_id")
   const checkoutStep = searchParams.get("step")
+  const onboardingCookie = request.cookies.get("_medusa_onboarding")
+  const cartIdCookie = request.cookies.get("_medusa_cart_id")
 
   const regionMap = await getRegionMap()
-  const countryCode = await getCountryCode(request, regionMap)
 
-  // Get path segments
-  const pathSegments = request.nextUrl.pathname.split("/").filter(Boolean)
-  
-  // Check if the first segment is already a valid country code
-  const firstSegment = pathSegments[0]?.toLowerCase()
-  const hasValidCountryCode = firstSegment && regionMap.has(firstSegment)
+  const countryCode = regionMap && (await getCountryCode(request, regionMap))
 
-  // Only redirect if we're at the root or don't have a valid country code
-  if (!hasValidCountryCode) {
-    const newPath = `/${countryCode}${request.nextUrl.pathname}`
-    const queryString = request.nextUrl.search || ""
-    const redirectUrl = `${request.nextUrl.origin}${newPath}${queryString}`
-    
-    const response = NextResponse.redirect(redirectUrl, 307)
+  // Get the first non-empty path segment
+  const firstPathSegment = request.nextUrl.pathname.split("/")
+    .filter(segment => segment.length > 0)[0]?.toLowerCase()
 
-    // Handle cart and onboarding parameters
-    if (cartId && !checkoutStep) {
-      response.cookies.set("_medusa_cart_id", cartId, { maxAge: 60 * 60 * 24 })
-    }
+  const urlHasCountryCode = countryCode && firstPathSegment === countryCode
 
-    if (isOnboarding) {
-      response.cookies.set("_medusa_onboarding", "true", { maxAge: 60 * 60 * 24 })
-    }
-
-    return response
+  // If we already have the correct country code in the URL, proceed
+  if (
+    urlHasCountryCode &&
+    (!isOnboarding || onboardingCookie) &&
+    (!cartId || cartIdCookie)
+  ) {
+    return NextResponse.next()
   }
 
-  // If we already have a valid country code, just continue
-  return NextResponse.next()
+  // Build the redirect path without duplicate country codes
+  const pathSegments = request.nextUrl.pathname.split("/")
+    .filter(segment => segment.length > 0)
+    .filter(segment => segment !== countryCode)
+
+  const redirectPath = pathSegments.length > 0 ? `/${pathSegments.join("/")}` : ""
+  const queryString = request.nextUrl.search || ""
+
+  let redirectUrl = `${request.nextUrl.origin}/${countryCode}${redirectPath}${queryString}`
+  let response = NextResponse.redirect(redirectUrl, 307)
+
+  // Handle cart_id parameter
+  if (cartId && !checkoutStep) {
+    redirectUrl = `${redirectUrl}${redirectUrl.includes("?") ? "&" : "?"}step=address`
+    response = NextResponse.redirect(redirectUrl, 307)
+    response.cookies.set("_medusa_cart_id", cartId, { maxAge: 60 * 60 * 24 })
+  }
+
+  // Set onboarding cookie if needed
+  if (isOnboarding) {
+    response.cookies.set("_medusa_onboarding", "true", { maxAge: 60 * 60 * 24 })
+  }
+
+  return response
 }
 
 export const config = {
-  matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico).*)",
-    "/"
-  ]
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|ico|jpg|jpeg|png|gif|mp4|mp3|webp)$).*)"],
 }
