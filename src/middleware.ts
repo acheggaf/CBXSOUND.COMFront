@@ -57,19 +57,6 @@ async function getCountryCode(
       .get("x-vercel-ip-country")
       ?.toLowerCase()
 
-    const urlCountryCode = request.nextUrl.pathname.split("/")[1]?.toLowerCase()
-
-    if (!urlCountryCode || urlCountryCode.length !== 2) {
-      if (vercelCountryCode && regionMap.has(vercelCountryCode)) {
-        return vercelCountryCode
-      }
-      return DEFAULT_REGION
-    }
-
-    if (urlCountryCode && regionMap.has(urlCountryCode)) {
-      return urlCountryCode
-    }
-
     if (vercelCountryCode && regionMap.has(vercelCountryCode)) {
       return vercelCountryCode
     }
@@ -91,56 +78,48 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Prevent middleware from running twice
-  if (request.headers.get("x-middleware-cache")) {
-    return NextResponse.next()
-  }
-
   const searchParams = request.nextUrl.searchParams
   const isOnboarding = searchParams.get("onboarding") === "true"
   const cartId = searchParams.get("cart_id")
   const checkoutStep = searchParams.get("step")
-  const onboardingCookie = request.cookies.get("_medusa_onboarding")
-  const cartIdCookie = request.cookies.get("_medusa_cart_id")
 
   const regionMap = await getRegionMap()
   const countryCode = await getCountryCode(request, regionMap)
 
-  const currentCountryCode = request.nextUrl.pathname.split("/")[1]?.toLowerCase()
-  const hasValidCountryCode = currentCountryCode && currentCountryCode.length === 2 && regionMap.has(currentCountryCode)
+  // Get path segments
+  const pathSegments = request.nextUrl.pathname.split("/").filter(Boolean)
+  
+  // Check if the first segment is already a valid country code
+  const firstSegment = pathSegments[0]?.toLowerCase()
+  const hasValidCountryCode = firstSegment && regionMap.has(firstSegment)
 
-  let response = NextResponse.next()
-
-  // Only redirect if we're at the root or have an invalid country code
-  if (!hasValidCountryCode && countryCode) {
-    const redirectPath = request.nextUrl.pathname === "/" ? "" : request.nextUrl.pathname
+  // Only redirect if we're at the root or don't have a valid country code
+  if (!hasValidCountryCode) {
+    const newPath = `/${countryCode}${request.nextUrl.pathname}`
     const queryString = request.nextUrl.search || ""
-    const redirectUrl = `${request.nextUrl.origin}/${countryCode}${redirectPath}${queryString}`
+    const redirectUrl = `${request.nextUrl.origin}${newPath}${queryString}`
     
-    response = NextResponse.redirect(redirectUrl, 307)
+    const response = NextResponse.redirect(redirectUrl, 307)
+
+    // Handle cart and onboarding parameters
+    if (cartId && !checkoutStep) {
+      response.cookies.set("_medusa_cart_id", cartId, { maxAge: 60 * 60 * 24 })
+    }
+
+    if (isOnboarding) {
+      response.cookies.set("_medusa_onboarding", "true", { maxAge: 60 * 60 * 24 })
+    }
+
+    return response
   }
 
-  // Handle cart and onboarding parameters
-  if (cartId && !checkoutStep) {
-    response.cookies.set("_medusa_cart_id", cartId, { maxAge: 60 * 60 * 24 })
-  }
-
-  if (isOnboarding) {
-    response.cookies.set("_medusa_onboarding", "true", { maxAge: 60 * 60 * 24 })
-  }
-
-  // Set cache header to prevent multiple executions
-  response.headers.set("x-middleware-cache", "1")
-
-  return response
+  // If we already have a valid country code, just continue
+  return NextResponse.next()
 }
 
 export const config = {
   matcher: [
-    // Skip api routes
     "/((?!api|_next/static|_next/image|favicon.ico).*)",
-    // Optional: Add specific paths you want to match
-    "/",
-    "/:path*"
+    "/"
   ]
 }
