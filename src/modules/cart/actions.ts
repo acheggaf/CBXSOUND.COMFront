@@ -45,8 +45,10 @@ export async function getOrSetCart(countryCode: string) {
       cookies().set("_medusa_cart_id", cart.id, {
         maxAge: 60 * 60 * 24 * 7,
         httpOnly: true,
-        sameSite: "strict",
-        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        secure: true,
+        partitioned: true,
+        domain: process.env.NEXT_PUBLIC_BASE_URL || undefined,
       })
     revalidateTag("cart")
   }
