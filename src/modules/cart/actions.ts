@@ -24,11 +24,17 @@ import {
  * const cart = await getOrSetCart()
  */
 export async function getOrSetCart(countryCode: string) {
+  // Try getting the cart ID from cookie
   const cartId = cookies().get("_medusa_cart_id")?.value
   let cart
 
   if (cartId) {
-    cart = await getCart(cartId).then((cart) => cart)
+    try {
+      cart = await getCart(cartId).then((cart) => cart)
+    } catch (error) {
+      // If cart fetch fails, we'll create a new one below
+      console.error("Failed to fetch cart:", error)
+    }
   }
 
   const region = await getRegion(countryCode)
@@ -40,15 +46,32 @@ export async function getOrSetCart(countryCode: string) {
   const region_id = region.id
 
   if (!cart) {
-    cart = await createCart({ region_id }).then((res) => res)
-    cart &&
-      cookies().set("_medusa_cart_id", cart.id, {
-        maxAge: 60 * 60 * 24 * 7, // 7 days
-        httpOnly: true,
-        sameSite: "lax",     // Changed from "strict" to "lax"
-        secure: process.env.NODE_ENV === "production"
-      })
-    revalidateTag("cart")
+    try {
+      cart = await createCart({ region_id }).then((res) => res)
+      
+      if (cart) {
+        // Set multiple cookies with different configurations to handle Safari
+        // Standard cookie
+        cookies().set("_medusa_cart_id", cart.id, {
+          maxAge: 60 * 60 * 24 * 7,
+          httpOnly: true,
+          sameSite: "lax",
+          secure: process.env.NODE_ENV === "production"
+        })
+
+        // Backup cookie with less restrictive settings for Safari
+        cookies().set("_medusa_cart_id_backup", cart.id, {
+          maxAge: 60 * 60 * 24 * 7,
+          sameSite: "none",
+          secure: true
+        })
+      }
+      
+      revalidateTag("cart")
+    } catch (error) {
+      console.error("Failed to create cart:", error)
+      return null
+    }
   }
 
   if (cart && cart?.region_id !== region_id) {
@@ -60,7 +83,9 @@ export async function getOrSetCart(countryCode: string) {
 }
 
 export async function retrieveCart() {
-  const cartId = cookies().get("_medusa_cart_id")?.value
+  // Try both cookies
+  const cartId = cookies().get("_medusa_cart_id")?.value || 
+                cookies().get("_medusa_cart_id_backup")?.value
 
   if (!cartId) {
     return null
@@ -70,7 +95,7 @@ export async function retrieveCart() {
     const cart = await getCart(cartId).then((cart) => cart)
     return cart
   } catch (e) {
-    console.log(e)
+    console.error("Error retrieving cart:", e)
     return null
   }
 }
