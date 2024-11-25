@@ -43,12 +43,10 @@ export async function getOrSetCart(countryCode: string) {
     cart = await createCart({ region_id }).then((res) => res)
     cart &&
       cookies().set("_medusa_cart_id", cart.id, {
-        maxAge: 60 * 60 * 24 * 7,
+        maxAge: 60 * 60 * 24 * 7, // 7 days
         httpOnly: true,
-        sameSite: "lax",
-        secure: true,
-        partitioned: true,
-        domain: process.env.NEXT_PUBLIC_BASE_URL || undefined,
+        sameSite: "lax",     // Changed from "strict" to "lax"
+        secure: process.env.NODE_ENV === "production"
       })
     revalidateTag("cart")
   }
