@@ -1,0 +1,11 @@
+.searchContainer{
+    inset: 0px;
+    position: fixed;
+    top:50px;
+}
+
+.searchHolder{
+    position: relative;
+    z-index: 75;
+    height:50vh;
+}

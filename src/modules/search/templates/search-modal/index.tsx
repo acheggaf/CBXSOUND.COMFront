@@ -3,7 +3,7 @@
 import { InstantSearch } from "react-instantsearch-hooks-web"
 import { useRouter } from "next/navigation"
 import { MagnifyingGlassMini } from "@medusajs/icons"
-
+import styles from "./style.module.css"
 import { SEARCH_INDEX_NAME, searchClient } from "@lib/search-client"
 import Hit from "@modules/search/components/hit"
 import Hits from "@modules/search/components/hits"
@@ -55,9 +55,9 @@ export default function SearchModal() {
   }, [])
 
   return (
-    <div className="relative z-[75]">
+    <div className={styles.searchHolder}>
       <div className="fixed inset-0 bg-opacity-75 backdrop-blur-md opacity-100 h-screen w-screen" />
-      <div className="fixed inset-0 px-5 sm:p-0" ref={searchRef}>
+      <div className={styles.searchContainer} ref={searchRef}>
         <div className="flex flex-col justify-start w-full h-fit transform p-5 items-center text-left align-middle transition-all max-h-[75vh] bg-transparent shadow-none">
           <InstantSearch
             indexName={SEARCH_INDEX_NAME}
