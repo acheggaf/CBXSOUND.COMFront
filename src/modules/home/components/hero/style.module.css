@@ -137,6 +137,7 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    text-align: center;
   }
   
   .bphtitle {
@@ -147,11 +148,17 @@
   .getItNowButton {
     position: relative;
     right: auto;
+    margin: 0 auto; /* Center the button */
+    display: block; /* Ensures margin auto works properly */
   }
   
   .contentbody {
     text-align: center;
     font-size: 13px;
+  }
+
+  .contentWrapper {
+    align-items: center; /* Center all content in wrapper */
   }
 }
 

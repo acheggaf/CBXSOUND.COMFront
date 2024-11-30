@@ -1,0 +1,89 @@
+.burgerMenu {
+  display: none;
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 20px;
+  cursor: pointer;
+  z-index: 1001;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.burgerMenu span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: #000;
+  position: absolute;
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+  left: 0;
+}
+
+.burgerMenu span:nth-child(1) {
+  top: 0;
+}
+
+.burgerMenu span:nth-child(2) {
+  top: 9px;
+  transition: opacity 0.1s ease 0.1s;
+}
+
+.burgerMenu span:nth-child(3) {
+  top: 18px;
+}
+
+.burgerMenu.active span:nth-child(1) {
+  top: 9px;
+  transform: rotate(45deg);
+}
+
+.burgerMenu.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.burgerMenu.active span:nth-child(3) {
+  top: 9px;
+  transform: rotate(-45deg);
+}
+
+.mobileNav {
+  display: none;
+  position: fixed;
+  top: 60px;
+  left: -100%;
+  width: 100%;
+  height: calc(100vh - 60px);
+  background: #fff;
+  transition: left 0.3s ease;
+  z-index: 999;
+}
+
+.mobileNav.active {
+  left: 0;
+}
+
+.mobileNavLinks {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.mobileNavLinks .navlink {
+  margin: 10px 0;
+  font-size: 16px;
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  .burgerMenu {
+    display: block;
+  }
+  
+  .mobileNav {
+    display: block;
+  }
+}

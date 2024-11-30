@@ -1,44 +1,88 @@
 .productRail {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 2rem); /* Full width minus 1rem on each side */
+  margin: 0 1rem; /* Add margin to create padding effect */
+  transition: transform 0.2s ease;
+}
+
+.productRail:hover {
+  transform: scale(1.05);
+}
+
+.productRailHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.productTitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.viewAllLink {
+  color: #3b82f6;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.viewAllLink:hover {
+  color: #2563eb;
+}
+
+.productImageContainer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  margin-bottom: 1rem;
+}
+
+.productImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 1rem;
+}
+
+.description {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  text-align: center;
+  font-size: 14px;
+  padding: 0 1rem;
+}
+
+/* Tablet breakpoint */
+@media screen and (min-width: 768px) {
+  .productRail {
+    width: 45vw;
+    margin: 0; /* Remove margin on tablet and above */
+  }
+  
+  .productTitle {
+    font-size: 24px;
+  }
+  
+  .description {
+    font-size: 16px;
+  }
+}
+
+/* Desktop breakpoint */
+@media screen and (min-width: 1024px) {
+  .productRail {
     width: 28vw;
   }
-  .productRailHeader {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
+  
   .productTitle {
     font-size: 30px;
-    font-weight: bold;
-    margin-top: 5px;
   }
-  .viewAllLink {
-    color: #3b82f6;
-    text-decoration: none;
-    transition: color 0.2s ease;
-  }
-  .viewAllLink:hover {
-    color: #2563eb;
-  }
-  .productImageContainer {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16/9;
-  }
-  .productImage {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    object-fit: cover;
-    border-radius: 1rem;
-  }
-
-  .description{
-    display: flex;
-    justify-content: center;
-    align-self: center;
-    text-align: center;
-  }
+}

@@ -1,122 +1,117 @@
 .navbar {
-    display: flex;
-    width: 100%;
-    height: 60px;
-    background: #fff;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  width: 100%;
+  height: 60px;
+  background: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.3);
 }
 
 .logoholder {
-    position: absolute;
-    left: 30px;
-    height: 100%;
-    display: flex;
-    align-items: center;
+  position: absolute;
+  left: 30px;
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .logoimg {
-    background-image: url("/img/cbxlogo.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-    display: block;
-    width: 216px;
-    height: 24px;
+  background-image: url("/img/cbxlogo.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  display: block;
+  width: 216px;
+  height: 24px;
 }
 
 .navlinks {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: row;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: row;
 }
 
 .navlink {
-    margin: 0 20px;
-    font-weight: 700;
-    font-size: 17px;
-    transition: color 0.1s ease; /* Smooth transition for color change */
-    cursor: pointer; /* Changes cursor to pointer on hover */
+  margin: 0 20px;
+  font-weight: 700;
+  font-size: 17px;
+  transition: color 0.1s ease;
+  cursor: pointer;
 }
 
 .navlink:hover {
-    color: #555555;
+  color: #555555;
 }
 
-
 .iconHolder {
-    position: absolute;
-    right: 20px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    gap: 1vw;
+  position: absolute;
+  right: 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1vw;
 }
 
 .navicon {
-    margin: 0 12px;
-    background-repeat: no-repeat;
-    background-position: center;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    position: relative;
+  margin: 0 12px;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  position: relative;
 }
-
-
 
 .userlogin {
-    background-image: url("/img/user.svg");
-    bottom: 4px;
-}
-
-.cart {
-    background-image: url("/img/cart.svg");
+  background-image: url("/img/user.svg");
+  bottom: 4px;
 }
 
 .search {
-    background-image: url("/img/search.svg");
-    bottom: 5px;
+  background-image: url("/img/search.svg");
+  bottom: 5px;
 }
 
-.searchContainer {
-    position: relative;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    width: 44px; /* Width of search icon + its margin */
-    transition: width 0.3s ease;
-    bottom: 4px;
+@media screen and (max-width: 768px) {
+  .navlinks {
+    display: none;
+  }
+  
+  .logoholder {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .logoimg {
+    width: 160px;
+  }
+  
+  .iconHolder {
+    right: 15px;
+    gap: 0;
+  }
+  
+  .navicon {
+    margin: 0 8px;
+    width: 18px;
+    height: 18px;
+  }
 }
 
-.searchContainer.searchActive {
-    width: 244px; /* Width of search icon + its margin + width of search bar */
-}
-
-.searchbar {
-    position: absolute;
-    right: 0;
-    width: 200px;
-    height: 30px;
-    transform: translateX(100%);
-    transition: transform 0.3s ease;
-}
-
-.searchContainer.searchActive .searchbar {
-    transform: translateX(0);
-}
-
-.searchbar input {
-    width: 100%;
-    height: 100%;
-    padding: 0 10px;
-    border: 1px solid #ccc;
-    border-radius: 15px;
-    outline: none;
+@media screen and (max-width: 480px) {
+  .logoimg {
+    width: 140px;
+  }
+  
+  .navicon {
+    margin: 0 6px;
+    width: 16px;
+    height: 16px;
+  }
 }
