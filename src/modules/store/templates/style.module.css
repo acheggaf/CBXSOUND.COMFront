@@ -6,12 +6,10 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    padding: 0 1rem;
   }
   
   .productsbanner {
     height: 40vh;
-    min-height: 300px; /* Minimum height for smaller screens */
     width: 100%;
     background: url('/img/bannerwb.png') center center no-repeat;
     background-size: cover;
@@ -21,7 +19,6 @@
     justify-content: center;
     flex-direction: column;
     color: white;
-    padding: 1rem;
     text-align: center;
   }
   
@@ -87,9 +84,6 @@
   
   /* Desktop Styles */
   @media screen and (min-width: 1024px) {
-    .contentcontainer {
-      padding: 0 2rem;
-    }
   
     .productsbanner h2 {
       font-size: 4rem;
