@@ -102,6 +102,18 @@ const AccountNav = ({
                     <ChevronDown className="transform -rotate-90" />
                   </button>
                 </li>
+                <li>
+                  <LocalizedClientLink
+                    href="/account/licenses"
+                    className="flex items-center justify-between py-4 border-b border-gray-200 px-8"
+                    data-testid="licenses-link"
+                  >
+                    <div className="flex items-center gap-x-2">
+                      <span>Licenses</span>
+                    </div>
+                    <ChevronDown className="transform -rotate-90" />
+                  </LocalizedClientLink>
+                </li>
               </ul>
             </div>
           </>
@@ -148,6 +160,15 @@ const AccountNav = ({
                   data-testid="orders-link"
                 >
                   Orders
+                </AccountNavLink>
+              </li>
+              <li>
+                <AccountNavLink
+                  href="/account/licenses"
+                  route={route!}
+                  data-testid="licenses-link"
+                >
+                  Licenses
                 </AccountNavLink>
               </li>
               <li className="text-grey-700">

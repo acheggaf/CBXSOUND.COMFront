@@ -26,6 +26,15 @@ export type ProductArticle = {
   js_content: string
 }
 
+export type License = {
+  id: string
+  orderId: string
+  lineItemId: string  // Adding this field to match the component interface
+  licenseKey: string
+  machineId: string
+  date: string
+}
+
 export type ProductPreviewType = {
   id: string
   title: string

@@ -16,7 +16,7 @@ import { cache } from "react"
 import sortProducts from "@lib/util/sort-products"
 import transformProductPreview from "@lib/util/transform-product-preview"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
-import { ProductCategoryWithChildren, ProductPreviewType, FrontPagePlugins, ProductArticle } from "types/global"
+import { ProductCategoryWithChildren, ProductPreviewType, FrontPagePlugins, License } from "types/global"
 
 import { medusaClient } from "@lib/config"
 import medusaError from "@lib/util/medusa-error"
@@ -607,6 +607,24 @@ export const getProductArticleById = cache(
       };
     } catch (error) {
       console.error("Error fetching ProductArticle data:", error);
+      throw error;
+    }
+  }
+);
+
+export const getLicensesByOrder = cache(
+  async function (orderId: string): Promise<{ licenses: License[] }> {
+    try {
+      const response = await medusaClient.client.request(
+        "GET", 
+        `/store/licenses?orderid=${orderId}`
+      );
+      
+      return {
+        licenses: response.licenses
+      };
+    } catch (error) {
+      console.error("Error fetching license data:", error);
       throw error;
     }
   }
