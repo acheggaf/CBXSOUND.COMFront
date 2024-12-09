@@ -1,56 +1,76 @@
-'use client'
-
-import { LineItem, Order } from "@medusajs/medusa"
-import Image from "next/image"
-import { ChevronDown, ChevronUp } from "lucide-react"
-import styles from "./style.module.css"
-import { useEffect, useState } from "react"
-import { fetchLicenses, fetchDownloadLink } from "@lib/actions/license-actions"
-import { License } from "types/global"
-import { medusaClient } from "@lib/config"
+import { LineItem, Order } from "@medusajs/medusa";
+import Image from "next/image";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import styles from "./style.module.css";
+import { useEffect, useState } from "react";
+import { fetchLicenses, fetchDownloadLink, addLicense } from "@lib/actions/license-actions";
+import { License } from "types/global";
+import { medusaClient } from "@lib/config";
 
 type LicenseOrderItemProps = {
-  item: LineItem
-  order: Order
-  isExpanded: boolean
-  onToggle: () => void
-}
+  item: LineItem;
+  order: Order;
+  isExpanded: boolean;
+  onToggle: () => void;
+};
 
 export function LicenseOrderItem({
-    item,
-    order,
-    isExpanded,
-    onToggle
-  }: LicenseOrderItemProps) {
-    const [licenses, setLicenses] = useState<License[]>([])
-    const [isLoading, setIsLoading] = useState(false)
-    const [dowloadLink, setDowloadLink] = useState("")
+  item,
+  order,
+  isExpanded,
+  onToggle,
+}: LicenseOrderItemProps) {
+  const [licenses, setLicenses] = useState<License[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [downloadLink, setDownloadLink] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [machineId, setMachineId] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-      async function getLicenses() {
-        if (!isExpanded || !item.variant_id) return
-  
-        setIsLoading(true)
-        try {
-          const { variant } = await medusaClient.products.variants.retrieve(item.variant_id)
-          if (variant.product_id) {
-            const download_link = await fetchDownloadLink(variant.product_id);
-            setDowloadLink(download_link);
-            const data = await fetchLicenses(order.id, variant.product_id)
-            if (data?.licenses) {
-              setLicenses(data.licenses)
-            }
+  useEffect(() => {
+    async function getLicenses() {
+      if (!isExpanded || !item.variant_id) return;
+
+      setIsLoading(true);
+      try {
+        const { variant } = await medusaClient.products.variants.retrieve(item.variant_id);
+        if (variant.product_id) {
+          const download_link = await fetchDownloadLink(variant.product_id);
+          setDownloadLink(download_link);
+          const data = await fetchLicenses(order.id, variant.product_id);
+          if (data?.licenses) {
+            setLicenses(data.licenses);
           }
-        } catch (error) {
-          console.error("Error fetching licenses:", error)
-        } finally {
-          setIsLoading(false)
         }
+      } catch (error) {
+        console.error("Error fetching licenses:", error);
+      } finally {
+        setIsLoading(false);
       }
-  
-      getLicenses()
-    }, [isExpanded, item.variant_id, order.id])
-  
+    }
+
+    getLicenses();
+  }, [isExpanded, item.variant_id, order.id]);
+
+  const generateLicense = async () => {
+    if (!machineId.trim()) {
+      setError("Machine ID is required");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const response = await addLicense(order.id, item.product_id!, machineId);
+      setLicenses((prev) => [...prev, response.license]);
+      setError(null);
+      setMachineId(""); // Clear the input field
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to generate license");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className={styles.licenseCard}>
       <div
@@ -96,8 +116,8 @@ export function LicenseOrderItem({
         <div className={styles.expandedContent}>
           <div className={styles.expandedSection}>
             <h3 className={styles.sectionTitle}>Downloads</h3>
-            <button className={styles.downloadButton} >
-              <a href={dowloadLink}>Download Latest Version</a> 
+            <button className={styles.downloadButton}>
+              <a href={downloadLink}>Download Latest Version</a>
             </button>
           </div>
 
@@ -115,13 +135,27 @@ export function LicenseOrderItem({
               ) : (
                 <p className={styles.noLicenses}>No licenses generated yet</p>
               )}
-              <button className={styles.generateButton}>
-                Generate New License
-              </button>
+              {error && <p className={styles.error}>{error}</p>}
+              <div className={styles.machineIdForm}>
+                <input
+                  type="text"
+                  className={styles.machineIdInput}
+                  placeholder="Enter Machine ID"
+                  value={machineId}
+                  onChange={(e) => setMachineId(e.target.value)}
+                />
+                <button
+                  className={styles.generateButton}
+                  onClick={generateLicense}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Generating..." : "Generate New License"}
+                </button>
+              </div>
             </div>
           </div>
         </div>
       )}
     </div>
-  )
+  );
 }

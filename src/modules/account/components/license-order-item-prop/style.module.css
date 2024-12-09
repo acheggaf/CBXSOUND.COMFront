@@ -156,6 +156,27 @@
   font-size: 0.875rem;
 }
 
+.machineIdForm {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.machineIdInput {
+  flex-grow: 1;
+  padding: 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 0.875rem;
+}
+
+.error {
+  color: #b91c1c;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+
 @media (max-width: 640px) {
   .licenseContent {
     grid-template-columns: 60px 1fr;

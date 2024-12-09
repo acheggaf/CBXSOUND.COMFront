@@ -1,6 +1,8 @@
 'use server'
 
 import { getLicensesByOrder, getDownloadLink } from "@lib/data"
+import { License } from "types/global"
+import axios, { AxiosError } from "axios"
 
 export async function fetchLicenses(orderId: string, productId: string) {
   try {
@@ -19,5 +21,25 @@ export async function fetchDownloadLink(productId: string) : Promise<string> {
   } catch (error) {
     console.error("Error fetching Download Link:", error)
     return ""
+  }
+}
+
+interface LicenseResponse {
+  license: License
+}
+
+export async function addLicense(orderId: string, productId: string, machineId: string) {
+  try {
+    const response = await axios.post<LicenseResponse>(`${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/licenses`, {
+      orderid: orderId,
+      productid: productId,
+      machineid: machineId
+    })
+    return response.data
+  } catch (e: unknown) {
+    if (e instanceof AxiosError) {
+      throw new Error(e.response?.data?.error || "Failed to generate license")
+    }
+    throw e
   }
 }
