@@ -1,4 +1,3 @@
-// src/modules/account/components/license-details.tsx
 "use client"
 
 import { useState } from "react"
@@ -8,11 +7,30 @@ import { useForm } from "react-hook-form"
 import { ArrowLeft } from "@medusajs/icons"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { License } from "types/global"
-
+import axios, { AxiosError } from "axios"
 
 interface LicenseForm {
+  orderId: string
   machineId: string
-  lineItemId: string
+}
+
+interface LicenseResponse {
+  license: License
+}
+
+async function addLicense(orderId: string, machineId: string) {
+  try {
+    const response = await axios.post<LicenseResponse>(`${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/licenses`, {
+      orderid: orderId,
+      machineid: machineId
+    })
+    return response.data
+  } catch (e: unknown) {
+    if (e instanceof AxiosError) {
+      throw new Error(e.response?.data?.error || "Failed to generate license")
+    }
+    throw e
+  }
 }
 
 export default function LicenseDetails({ 
@@ -25,6 +43,7 @@ export default function LicenseDetails({
   const [licenses, setLicenses] = useState<License[]>(initialLicenses)
   const [selectedItem, setSelectedItem] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const {
     register,
@@ -34,28 +53,16 @@ export default function LicenseDetails({
   } = useForm<LicenseForm>()
 
   const onSubmit = async (data: LicenseForm) => {
+    setIsSubmitting(true)
     try {
-      const response = await fetch("/api/store/licenses", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...data,
-          orderId: order.id
-        }),
-      })
-
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error)
-      }
-
-      const newLicense = await response.json()
-      setLicenses(prev => [...prev, newLicense.license])
+      const response = await addLicense(data.orderId, data.machineId)
+      setLicenses(prev => [...prev, response.license])
+      setError(null)
       reset()
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to generate license")
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -143,8 +150,8 @@ export default function LicenseDetails({
                         >
                           <input
                             type="hidden"
-                            {...register("lineItemId")}
-                            value={item.id}
+                            {...register("orderId")}
+                            value={order.id}
                           />
                           <div>
                             <label className="text-base-regular">Machine ID</label>
@@ -154,6 +161,7 @@ export default function LicenseDetails({
                                 required: "Machine ID is required",
                               })}
                               placeholder="Enter your machine ID"
+                              disabled={isSubmitting}
                             />
                             {errors.machineId && (
                               <p className="text-rose-500 text-small-regular mt-1">
@@ -161,8 +169,12 @@ export default function LicenseDetails({
                               </p>
                             )}
                           </div>
-                          <Button type="submit" className="w-full">
-                            Generate License
+                          <Button 
+                            type="submit" 
+                            className="w-full"
+                            disabled={isSubmitting}
+                          >
+                            {isSubmitting ? 'Generating...' : 'Generate License'}
                           </Button>
                         </form>
                       </div>
