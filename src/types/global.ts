@@ -27,11 +27,11 @@ export type ProductArticle = {
 }
 
 export type License = {
-  id: string
-  orderId: string
-  lineItemId: string  // Adding this field to match the component interface
-  licenseKey: string
-  machineId: string
+  id: number
+  orderid: string
+  productid: string
+  licensekey: string
+  machineid: string
   date: string
 }
 

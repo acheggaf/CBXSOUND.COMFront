@@ -3,6 +3,8 @@
   border-radius: 12px;
   border: 1px solid #eaeaea;
   transition: transform 0.2s ease;
+  max-width: 100%;
+  box-shadow: 0 0px 2px rgba(0, 0, 0, 0.3);
 }
 
 .licenseHeader {
@@ -17,14 +19,14 @@
 
 .licenseContent {
   display: grid;
-  grid-template-columns: 80px 1fr auto;
+  grid-template-columns: 120px 1fr auto;
   gap: 1.5rem;
   align-items: center;
 }
 
 .imageContainer {
   position: relative;
-  width: 80px;
+  width: 120px;
   height: 80px;
   border-radius: 8px;
   overflow: hidden;
@@ -76,6 +78,7 @@
 }
 
 .expandedContent {
+  background-color: #efefef;
   border-top: 1px solid #eaeaea;
   padding: 1.5rem;
   display: flex;
@@ -131,8 +134,23 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  width: 100%;
 }
 
+.licenseItem {
+  background-color: #f3f4f6;
+  padding: 0.75rem;
+  border-radius: 6px;
+  width: 100%;
+}
+
+.licenseItem span {
+  display: block;
+  word-break: break-all;
+  font-family: monospace;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
 .noLicenses {
   color: #6b7280;
   font-size: 0.875rem;

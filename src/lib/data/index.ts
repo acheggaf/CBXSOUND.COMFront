@@ -613,11 +613,11 @@ export const getProductArticleById = cache(
 );
 
 export const getLicensesByOrder = cache(
-  async function (orderId: string): Promise<{ licenses: License[] }> {
+  async function (orderId: string, product_id: string): Promise<{ licenses: License[] }> {
     try {
       const response = await medusaClient.client.request(
         "GET", 
-        `/store/licenses?orderid=${orderId}`
+        `/store/licenses?orderid=${orderId}&product_id=${product_id}`
       );
       
       return {
@@ -625,6 +625,24 @@ export const getLicensesByOrder = cache(
       };
     } catch (error) {
       console.error("Error fetching license data:", error);
+      throw error;
+    }
+  }
+);
+
+export const getDownloadLink = cache(
+  async function (product_id: string): Promise<{ download_link: string }> {
+    try {
+      const response = await medusaClient.client.request(
+        "GET", 
+        `/store/downloadlink?productid=${product_id}`
+      );
+      
+      return {
+        download_link: response.download_link
+      };
+    } catch (error) {
+      console.error("Error fetching DownloadLink", error);
       throw error;
     }
   }
