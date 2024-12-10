@@ -25,6 +25,7 @@ export function LicenseOrderItem({
   const [downloadLink, setDownloadLink] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [machineId, setMachineId] = useState("");
+  const [productId, setProductId] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -35,6 +36,7 @@ export function LicenseOrderItem({
       try {
         const { variant } = await medusaClient.products.variants.retrieve(item.variant_id);
         if (variant.product_id) {
+          setProductId(variant.product_id);
           const download_link = await fetchDownloadLink(variant.product_id);
           setDownloadLink(download_link);
           const data = await fetchLicenses(order.id, variant.product_id);
@@ -60,7 +62,7 @@ export function LicenseOrderItem({
 
     setIsSubmitting(true);
     try {
-      const response = await addLicense(order.id, item.product_id!, machineId);
+      const response = await addLicense(order.id, productId, machineId);
       setLicenses((prev) => [...prev, response.license]);
       setError(null);
       setMachineId(""); // Clear the input field
