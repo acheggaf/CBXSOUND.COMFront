@@ -26,12 +26,15 @@ export type ProductArticle = {
   js_content: string
 }
 
+
 export type License = {
   id: number
   orderid: string
   productid: string
   licensekey: string
   machineid: string
+  machinename: string
+  machineos: string
   date: string
 }
 

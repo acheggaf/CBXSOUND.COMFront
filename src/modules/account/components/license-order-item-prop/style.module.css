@@ -7,6 +7,105 @@
   box-shadow: 0 0px 2px rgba(0, 0, 0, 0.3);
 }
 
+.licensesTable {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 1rem;
+  table-layout: fixed;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  vertical-align: top;
+}
+
+.table th {
+  background-color: #f9fafb;
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.875rem;
+}
+
+.table td {
+  font-size: 0.875rem;
+  color: #111827;
+}
+
+/* Column widths */
+.table th:nth-child(1),
+.table td:nth-child(1) {
+  width: 20%;
+}
+
+.table th:nth-child(2),
+.table td:nth-child(2) {
+  width: 15%;
+}
+
+.table th:nth-child(3),
+.table td:nth-child(3) {
+  width: 60%;
+}
+
+.table th:nth-child(4),
+.table td:nth-child(4) {
+  width: 5%;
+  padding-left: 0;
+}
+
+.tableRow:hover {
+  background-color: #f9fafb;
+}
+
+.licenseKeyCell {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  word-wrap: break-word;
+  word-break: break-all;
+  max-width: 0;
+}
+
+.licenseKeyCell code {
+  display: block;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  word-break: break-all;
+  padding: 0.25rem 0;
+}
+
+.copyButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #6b7280;
+  transition: color 0.2s ease;
+}
+
+.copyButton:hover {
+  color: #111827;
+}
+
+.copyIcon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+
+
+
 .licenseHeader {
   padding: 1.5rem;
   cursor: pointer;
@@ -176,6 +275,37 @@
   margin-top: 0.5rem;
 }
 
+.downloadGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  width: 100%;
+}
+
+.downloadButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  background-color: #f3f4f6;
+  color: #111827;
+  border: 1px solid #e5e7eb;
+  text-decoration: none;
+  gap: 0.75rem;
+}
+
+.downloadButton:hover {
+  background-color: #e5e7eb;
+}
+
+.osIcon {
+  width: 20px;
+  height: 20px;
+}
 
 @media (max-width: 640px) {
   .licenseContent {
@@ -199,5 +329,40 @@
 
   .downloadButton, .generateButton {
     width: 100%;
+  }
+
+  .downloadGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .downloadButton {
+    width: 100%;
+  }
+
+  .table {
+    table-layout: auto;
+    display: block;
+    overflow-x: auto;
+  }
+  
+  .table th,
+  .table td {
+    padding: 0.5rem;
+    white-space: normal;
+  }
+
+  .table th:nth-child(1),
+  .table td:nth-child(1),
+  .table th:nth-child(2),
+  .table td:nth-child(2),
+  .table th:nth-child(3),
+  .table td:nth-child(3),
+  .table th:nth-child(4),
+  .table td:nth-child(4) {
+    width: auto;
+  }
+
+  .licenseKeyCell {
+    min-width: 200px;
   }
 }

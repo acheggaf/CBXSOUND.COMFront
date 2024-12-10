@@ -1,11 +1,19 @@
 import { LineItem, Order } from "@medusajs/medusa";
 import Image from "next/image";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, Copy, Check } from "lucide-react";
+import { FaWindows, FaApple, FaLinux } from "react-icons/fa";
+import { HiDownload } from "react-icons/hi";
 import styles from "./style.module.css";
 import { useEffect, useState } from "react";
 import { fetchLicenses, fetchDownloadLink, addLicense } from "@lib/actions/license-actions";
 import { License } from "types/global";
 import { medusaClient } from "@lib/config";
+import { IconType } from "react-icons";
+
+type DownloadLink = {
+  os: string;
+  link: string;
+};
 
 type LicenseOrderItemProps = {
   item: LineItem;
@@ -22,11 +30,12 @@ export function LicenseOrderItem({
 }: LicenseOrderItemProps) {
   const [licenses, setLicenses] = useState<License[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [downloadLink, setDownloadLink] = useState("");
+  const [downloadLinks, setDownloadLinks] = useState<DownloadLink[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [machineId, setMachineId] = useState("");
   const [productId, setProductId] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [copiedLicenseId, setCopiedLicenseId] = useState<number | null>(null);
 
   useEffect(() => {
     async function getLicenses() {
@@ -37,8 +46,9 @@ export function LicenseOrderItem({
         const { variant } = await medusaClient.products.variants.retrieve(item.variant_id);
         if (variant.product_id) {
           setProductId(variant.product_id);
-          const download_link = await fetchDownloadLink(variant.product_id);
-          setDownloadLink(download_link);
+          const rawDownloadLinks = await fetchDownloadLink(variant.product_id);
+          const parsedLinks = JSON.parse(rawDownloadLinks);
+          setDownloadLinks(parsedLinks);
           const data = await fetchLicenses(order.id, variant.product_id);
           if (data?.licenses) {
             setLicenses(data.licenses);
@@ -65,12 +75,30 @@ export function LicenseOrderItem({
       const response = await addLicense(order.id, productId, machineId);
       setLicenses((prev) => [...prev, response.license]);
       setError(null);
-      setMachineId(""); // Clear the input field
+      setMachineId("");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to generate license");
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const copyToClipboard = async (licenseKey: string, licenseId: number) => {
+    try {
+      await navigator.clipboard.writeText(licenseKey);
+      setCopiedLicenseId(licenseId);
+      setTimeout(() => setCopiedLicenseId(null), 2000);
+    } catch (err) {
+      console.error("Failed to copy:", err);
+    }
+  };
+
+  const getOSInfo = (os: string): { name: string; Icon: IconType } => {
+    const osLower = os.toLowerCase();
+    if (osLower.includes('win')) return { name: 'Windows', Icon: FaWindows };
+    if (osLower.includes('mac') || osLower.includes('darwin') || osLower.includes('apple')) return { name: 'macOS', Icon: FaApple };
+    if (osLower.includes('linux') || osLower.includes('ubuntu') || osLower.includes('debian')) return { name: 'Linux', Icon: FaLinux };
+    return { name: os, Icon: HiDownload };
   };
 
   return (
@@ -118,22 +146,63 @@ export function LicenseOrderItem({
         <div className={styles.expandedContent}>
           <div className={styles.expandedSection}>
             <h3 className={styles.sectionTitle}>Downloads</h3>
-            <button className={styles.downloadButton}>
-              <a href={downloadLink}>Download Latest Version</a>
-            </button>
+            <div className={styles.downloadGrid}>
+              {downloadLinks.map((download, index) => {
+                const { name, Icon } = getOSInfo(download.os);
+                return (
+                  <a
+                    key={index}
+                    href={download.link}
+                    className={styles.downloadButton}
+                    download
+                  >
+                    <Icon className={styles.osIcon} />
+                    <span>Download for {name}</span>
+                  </a>
+                );
+              })}
+            </div>
           </div>
 
           <div className={styles.expandedSection}>
             <h3 className={styles.sectionTitle}>Licenses</h3>
-            <div className={styles.licensesList}>
+            <div className={styles.licensesTable}>
               {isLoading ? (
                 <p className={styles.loading}>Loading licenses...</p>
               ) : licenses && licenses.length > 0 ? (
-                licenses.map((license: License) => (
-                  <div key={license.id} className={styles.licenseItem}>
-                    <span>{license.licensekey}</span>
-                  </div>
-                ))
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th>Machine Name</th>
+                      <th>Operating System</th>
+                      <th>License Key</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {licenses.map((license: License) => (
+                      <tr key={license.id} className={styles.tableRow}>
+                        <td>{license.machinename}</td>
+                        <td>{license.machineos}</td>
+                        <td className={styles.licenseKeyCell}>
+                          <code>{license.licensekey}</code>
+                        </td>
+                        <td>
+                          <button
+                            className={styles.copyButton}
+                            onClick={() => copyToClipboard(license.licensekey, license.id)}
+                          >
+                            {copiedLicenseId === license.id ? (
+                              <Check className={styles.copyIcon} />
+                            ) : (
+                              <Copy className={styles.copyIcon} />
+                            )}
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               ) : (
                 <p className={styles.noLicenses}>No licenses generated yet</p>
               )}
@@ -142,7 +211,7 @@ export function LicenseOrderItem({
                 <input
                   type="text"
                   className={styles.machineIdInput}
-                  placeholder="Enter Machine ID"
+                  placeholder="Enter Input Key in the software"
                   value={machineId}
                   onChange={(e) => setMachineId(e.target.value)}
                 />
