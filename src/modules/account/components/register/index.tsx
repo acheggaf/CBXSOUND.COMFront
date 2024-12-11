@@ -1,13 +1,11 @@
 "use client"
 
 import { useFormState } from "react-dom"
-
-import Input from "@modules/common/components/input"
 import { LOGIN_VIEW } from "@modules/account/templates/login-template"
 import { signUp } from "@modules/account/actions"
 import ErrorMessage from "@modules/checkout/components/error-message"
-import { SubmitButton } from "@modules/checkout/components/submit-button"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import styles from './styles.module.css'
 
 type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void
@@ -17,78 +15,135 @@ const Register = ({ setCurrentView }: Props) => {
   const [message, formAction] = useFormState(signUp, null)
 
   return (
-    <div className="max-w-sm flex flex-col items-center" data-testid="register-page">
-      <h1 className="text-large-semi uppercase mb-6">
-        Become a CBX Sound Member
-      </h1>
-      <p className="text-center text-base-regular text-ui-fg-base mb-4">
-        Create your CBX Sound Member profile, and get access to an enhanced
-        shopping experience.
-      </p>
-      <form className="w-full flex flex-col" action={formAction}>
-        <div className="flex flex-col w-full gap-y-2">
-          <Input
-            label="First name"
+    <div className={styles.registerContainer} data-testid="register-page">
+      <div className={styles.header}>
+        <h1 className={styles.title}>
+          Become a CBX Sound Member
+        </h1>
+        <p className={styles.subtitle}>
+          Create your CBX Sound Member profile, and get access to an enhanced
+          shopping experience.
+        </p>
+      </div>
+
+      <form className={styles.form} action={formAction}>
+        <div className={styles.inputGroup}>
+          <label htmlFor="first_name" className={styles.label}>
+            First name
+            <span className={styles.required}>*</span>
+          </label>
+          <input
+            id="first_name"
             name="first_name"
+            className={styles.input}
             required
             autoComplete="given-name"
             data-testid="first-name-input"
           />
-          <Input
-            label="Last name"
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label htmlFor="last_name" className={styles.label}>
+            Last name
+            <span className={styles.required}>*</span>
+          </label>
+          <input
+            id="last_name"
             name="last_name"
+            className={styles.input}
             required
             autoComplete="family-name"
             data-testid="last-name-input"
           />
-          <Input
-            label="Email"
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label htmlFor="email" className={styles.label}>
+            Email
+            <span className={styles.required}>*</span>
+          </label>
+          <input
+            id="email"
             name="email"
-            required
             type="email"
+            className={styles.input}
+            required
             autoComplete="email"
             data-testid="email-input"
           />
-          <Input label="Phone" name="phone" type="tel" autoComplete="tel" data-testid="phone-input" />
-          <Input
-            label="Password"
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label htmlFor="phone" className={styles.label}>
+            Phone
+          </label>
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            className={styles.input}
+            autoComplete="tel"
+            data-testid="phone-input"
+          />
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label htmlFor="password" className={styles.label}>
+            Password
+            <span className={styles.required}>*</span>
+          </label>
+          <input
+            id="password"
             name="password"
-            required
             type="password"
+            className={styles.input}
+            required
             autoComplete="new-password"
             data-testid="password-input"
           />
         </div>
-        <ErrorMessage error={message} data-testid="register-error" />
-        <span className="text-center text-ui-fg-base text-small-regular mt-6">
-          By creating an account, you agree to CBX Sound&apos;s{" "}
+
+
+        {message && (
+          <ErrorMessage error={message} data-testid="register-error" />
+        )}
+
+        <p className={styles.termsText}>
+          By creating an account, you agree to CBX Sound's{" "}
           <LocalizedClientLink
             href="/content/privacy-policy"
-            className="underline"
+            className={styles.link}
           >
             Privacy Policy
           </LocalizedClientLink>{" "}
           and{" "}
           <LocalizedClientLink
             href="/content/terms-of-use"
-            className="underline"
+            className={styles.link}
           >
             Terms of Use
           </LocalizedClientLink>
           .
-        </span>
-        <SubmitButton className="w-full mt-6" data-testid="register-button">Join</SubmitButton>
-      </form>
-      <span className="text-center text-ui-fg-base text-small-regular mt-6">
-        Already a member?{" "}
-        <button
-          onClick={() => setCurrentView(LOGIN_VIEW.SIGN_IN)}
-          className="underline"
+        </p>
+
+        <button 
+          type="submit" 
+          className={styles.submitButton}
+          data-testid="register-button"
         >
-          Sign in
+          Join
         </button>
-        .
-      </span>
+
+        <div className={styles.loginSection}>
+          Already a member?{" "}
+          <button
+            onClick={() => setCurrentView(LOGIN_VIEW.SIGN_IN)}
+            className={styles.loginLink}
+          >
+            Sign in
+          </button>
+        </div>
+      </form>
     </div>
   )
 }

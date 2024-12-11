@@ -1,0 +1,120 @@
+/* The main container for the login form */
+.loginContainer {
+    /* Set a fixed width for the container */
+    width: 600px;
+    /* Center the container horizontally */
+    margin: 0 auto;
+    /* Add padding and visual styling */
+    padding: 32px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  /* Form header styling */
+  .header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 8px;
+  }
+  
+  .subtitle {
+    font-size: 14px;
+    color: #6B7280;
+  }
+  
+  /* Form element styling */
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 8px 16px;
+    border: 1px solid #D1D5DB;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  
+  .input:focus {
+    border-color: #2563EB;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+  }
+  
+  /* Password input container for positioning the show/hide button */
+  .passwordContainer {
+    position: relative;
+  }
+  
+  .showPasswordButton {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #6B7280;
+    cursor: pointer;
+  }
+  
+  .showPasswordButton:hover {
+    color: #374151;
+  }
+  
+  /* Submit button styling */
+  .submitButton {
+    width: 100%;
+    padding: 10px 16px;
+    background-color: #2563EB;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .submitButton:hover {
+    background-color: #1D4ED8;
+  }
+  
+  /* Register link section */
+  .registerSection {
+    text-align: center;
+    font-size: 14px;
+    color: #6B7280;
+  }
+  
+  .registerLink {
+    color: #2563EB;
+    font-weight: 500;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+  
+  .registerLink:hover {
+    text-decoration: underline;
+  }

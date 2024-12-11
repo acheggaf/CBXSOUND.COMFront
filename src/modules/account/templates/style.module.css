@@ -1,0 +1,238 @@
+/* LoginTemplate.module.css */
+
+/* Main Container Styles
+   Creates a flex container for the split layout and ensures consistent maximum width */
+   .container {
+    display: flex;
+    margin-bottom: 10vh;
+    gap: 4vw;
+    width: 100%;
+    background-color: #ffffff;
+  }
+  
+  /* Form Section Styles
+     Houses the login/register form with controlled width and centered content */
+  .formSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 320px;
+  }
+  
+  /* Promotional Section Styles
+     Creates the decorative section with animated background pattern */
+  .promoSection {
+    position: relative;
+    overflow: hidden;
+    background-color: #000000;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2000 1500'%3E%3Cdefs%3E%3Crect fill='none' stroke-width='87.3' id='a' x='-400' y='-300' width='800' height='600'/%3E%3C/defs%3E%3Cg style='transform-origin:center'%3E%3Cg transform='' style='transform-origin:center'%3E%3Cg transform='rotate(-134.4 0 0)' style='transform-origin:center'%3E%3Cg transform='translate(1000 750)'%3E%3Cuse stroke='%23000' href='%23a' transform='rotate(8.4 0 0) scale(1.084)'/%3E%3Cuse stroke='%23000011' href='%23a' transform='rotate(16.8 0 0) scale(1.168)'/%3E%3Cuse stroke='%23000022' href='%23a' transform='rotate(25.2 0 0) scale(1.252)'/%3E%3Cuse stroke='%23000033' href='%23a' transform='rotate(33.6 0 0) scale(1.336)'/%3E%3Cuse stroke='%23000044' href='%23a' transform='rotate(42 0 0) scale(1.42)'/%3E%3Cuse stroke='%23000055' href='%23a' transform='rotate(50.4 0 0) scale(1.504)'/%3E%3Cuse stroke='%23000066' href='%23a' transform='rotate(58.8 0 0) scale(1.588)'/%3E%3Cuse stroke='%23000077' href='%23a' transform='rotate(67.2 0 0) scale(1.672)'/%3E%3Cuse stroke='%23000088' href='%23a' transform='rotate(75.6 0 0) scale(1.756)'/%3E%3Cuse stroke='%23000099' href='%23a' transform='rotate(84 0 0) scale(1.84)'/%3E%3Cuse stroke='%230000aa' href='%23a' transform='rotate(92.4 0 0) scale(1.924)'/%3E%3Cuse stroke='%230000bb' href='%23a' transform='rotate(100.8 0 0) scale(2.008)'/%3E%3Cuse stroke='%230000cc' href='%23a' transform='rotate(109.2 0 0) scale(2.092)'/%3E%3Cuse stroke='%230000dd' href='%23a' transform='rotate(117.6 0 0) scale(2.176)'/%3E%3Cuse stroke='%230000ee' href='%23a' transform='rotate(126 0 0) scale(2.26)'/%3E%3Cuse stroke='%2300F' href='%23a' transform='rotate(134.4 0 0) scale(2.344)'/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-attachment: fixed;
+    background-size: cover;
+    animation: patternShift 30s linear infinite;
+  }
+  
+  /* Promotional Content Container
+     Structures the content within the promotional section */
+  .promoContent {
+    position: relative;
+    height: 100%;
+    padding: 2rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+    z-index: 2;
+  }
+  
+  /* Glass Effect Overlay
+     Creates a translucent, blurred overlay for depth */
+  .promoSection::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 255, 0.1) 0%,
+      rgba(0, 0, 0, 0.3) 100%
+    );
+    backdrop-filter: blur(8px);
+    z-index: 1;
+  }
+  
+  /* Main Title Styles
+     Creates an animated gradient text effect */
+  .promoTitle {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+    background: linear-gradient(45deg, #fff, #88f);
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: titleGlow 3s ease-in-out infinite;
+  }
+  
+  /* Feature Section Styles
+     Structures the feature list with animated entrance */
+  .promoFeatures {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  .promoFeature {
+    opacity: 0;
+    animation: fadeInUp 0.5s ease-out forwards;
+    transition: transform 0.3s ease;
+  }
+  
+  /* Staggered animation delays for features */
+  .promoFeature:nth-child(1) { animation-delay: 0.2s; }
+  .promoFeature:nth-child(2) { animation-delay: 0.4s; }
+  .promoFeature:nth-child(3) { animation-delay: 0.6s; }
+  
+  /* Feature Highlight Text
+     Styles for feature headings */
+  .featureHighlight {
+    display: block;
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: #88f;
+    transition: color 0.3s ease;
+  }
+  
+  /* Feature Description Text
+     Styles for feature body text */
+  .promoFeature p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  /* Call-to-Action Section
+     Positions the bottom tagline */
+  .promoCTA {
+    margin-top: auto;
+  }
+  
+  /* Tagline Styles
+     Animated text at the bottom of the promo section */
+  .promoTagline {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    animation: pulse 4s ease-in-out infinite;
+  }
+  
+  /* Animation Keyframes */
+  @keyframes patternShift {
+    0% {
+      background-position: 0% 0%;
+    }
+    100% {
+      background-position: 100% 100%;
+    }
+  }
+  
+  @keyframes titleGlow {
+    0%, 100% {
+      filter: drop-shadow(0 0 10px rgba(136, 136, 255, 0.3));
+    }
+    50% {
+      filter: drop-shadow(0 0 20px rgba(136, 136, 255, 0.5));
+    }
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 0.9;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  
+  /* Hover Effects */
+  .promoFeature:hover {
+    transform: translateX(10px);
+  }
+  
+  .promoFeature:hover .featureHighlight {
+    color: #aaf;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 1200px) {
+    .container {
+      max-width: 100%;
+      padding: 0 1rem;
+    }
+  
+    .formSection {
+      flex: 1;
+      padding: 2rem;
+    }
+  
+    .promoSection {
+      flex: 1;
+    }
+  }
+  
+  @media (max-width: 1024px) {
+    .container {
+      flex-direction: column;
+      padding: 0;
+    }
+    
+    .promoSection {
+      min-height: 360px;
+    }
+    
+    .promoContent {
+      padding: 2rem;
+    }
+  
+    .promoTitle {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+  
+    .promoFeatures {
+      gap: 1.5rem;
+    }
+  }
+  
+  @media (max-width: 640px) {
+    .formSection {
+      padding: 1.5rem;
+    }
+  
+    .promoContent {
+      padding: 1.5rem;
+    }
+  
+    .promoTitle {
+      font-size: 1.75rem;
+    }
+  
+    .featureHighlight {
+      font-size: 1rem;
+    }
+  
+    .promoFeature p {
+      font-size: 0.9rem;
+    }
+  }

@@ -1,0 +1,171 @@
+/* Main container styling - sets up the card-like appearance */
+.registerContainer {
+    /* Fixed width with auto margins centers the container */
+    width: 600px;
+    margin: 0 auto;
+    /* Generous padding for comfortable spacing of content */
+    padding: 32px;
+    /* Clean, modern appearance with white background */
+    background-color: white;
+    /* Rounded corners for a softer look */
+    border-radius: 8px;
+    /* Subtle shadow provides depth without being too dramatic */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  /* Header section styling - contains title and subtitle */
+  .header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  
+  /* Main title styling */
+  .title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    /* Maintain consistent letter spacing for uppercase text */
+    letter-spacing: 0.025em;
+  }
+  
+  /* Subtitle styling - provides context under the main title */
+  .subtitle {
+    font-size: 14px;
+    color: #6B7280;
+    margin-bottom: 24px;
+    /* Improved line height for better readability */
+    line-height: 1.5;
+  }
+  
+  /* Form container - organizes form elements vertically */
+  .form {
+    display: flex;
+    flex-direction: column;
+    /* Consistent spacing between form groups */
+    gap: 16px;
+  }
+  
+  /* Container for each input field and its label */
+  .inputGroup {
+    display: flex;
+    flex-direction: column;
+    /* Tighter spacing between label and input */
+    gap: 4px;
+  }
+  
+  /* Label styling - includes space for required asterisk */
+  .label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    /* Allows label and asterisk to sit on same line */
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  /* Required field asterisk styling */
+  .required {
+    color: #DC2626;
+    font-size: 14px;
+  }
+  
+  /* Input field styling */
+  .input {
+    width: 100%;
+    /* Comfortable padding for text input */
+    padding: 8px 16px;
+    /* Subtle border that darkens on focus */
+    border: 1px solid #D1D5DB;
+    border-radius: 6px;
+    outline: none;
+    /* Smooth transitions for interactive states */
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  
+  /* Input focus state */
+  .input:focus {
+    border-color: #2563EB;
+    /* Subtle glow effect on focus */
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+  }
+  
+  /* Terms and conditions text styling */
+  .termsText {
+    text-align: center;
+    font-size: 14px;
+    color: #6B7280;
+    /* Spacing above and below terms text */
+    margin: 24px 0;
+    line-height: 1.5;
+  }
+  
+  /* Styling for links within terms text */
+  .link {
+    color: #2563EB;
+    text-decoration: underline;
+    /* Smooth color transition on hover */
+    transition: color 0.2s;
+  }
+  
+  /* Link hover state */
+  .link:hover {
+    color: #1D4ED8;
+  }
+  
+  /* Submit button styling */
+  .submitButton {
+    width: 100%;
+    padding: 10px 16px;
+    background-color: #2563EB;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    /* Smooth background color transition */
+    transition: background-color 0.2s;
+    margin-top: 24px;
+  }
+  
+  /* Submit button hover state */
+  .submitButton:hover {
+    background-color: #1D4ED8;
+  }
+  
+  /* Login section styling - appears below the form */
+  .loginSection {
+    text-align: center;
+    font-size: 14px;
+    color: #6B7280;
+    margin-top: 24px;
+  }
+  
+  /* Login link styling */
+  .loginLink {
+    color: #2563EB;
+    /* Remove default button styles */
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    /* Start without underline */
+    text-decoration: none;
+  }
+  
+  /* Login link hover state */
+  .loginLink:hover {
+    color: #1D4ED8;
+    /* Add underline on hover */
+    text-decoration: underline;
+  }
+  
+  /* Error message container styling */
+  .errorMessage {
+    color: #DC2626;
+    font-size: 14px;
+    margin-top: 8px;
+    text-align: center;
+  }
