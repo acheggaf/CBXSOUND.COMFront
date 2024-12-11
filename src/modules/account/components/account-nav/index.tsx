@@ -90,7 +90,7 @@ const AccountNav = ({ customer }: AccountNavProps) => {
         <WelcomeHeader customerName={customer?.first_name || ''} />
         
         <div className="flex justify-center w-full mb-8">
-          <div className="grid grid-cols-6 gap-6">
+          <div className="grid grid-cols-5 gap-5">
             {navItems.map((item) => {
               const active = route.split(countryCode)[1] === item.href
               const Icon = item.icon
