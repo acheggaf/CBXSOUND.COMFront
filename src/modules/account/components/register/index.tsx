@@ -109,7 +109,7 @@ const Register = ({ setCurrentView }: Props) => {
         )}
 
         <p className={styles.termsText}>
-          By creating an account, you agree to CBX Sound's{" "}
+          By creating an account, you agree to CBX Sound&apos;s{" "}
           <LocalizedClientLink
             href="/content/privacy-policy"
             className={styles.link}
