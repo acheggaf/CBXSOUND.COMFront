@@ -1,0 +1,129 @@
+/* Main container styles */
+.container {
+    padding: 32px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Header section */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #E5E7EB;
+  }
+  
+  .welcomeText {
+    font-size: 28px;
+    font-weight: 600;
+    color: #111827;
+  }
+  
+  .emailText {
+    font-size: 14px;
+    color: #6B7280;
+  }
+  
+  .emailValue {
+    font-weight: 600;
+    color: #374151;
+  }
+  
+  /* Stats section */
+  .statsContainer {
+    display: flex;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+  
+  .statBox {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .statTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: #374151;
+  }
+  
+  .statValue {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  
+  .statNumber {
+    font-size: 32px;
+    font-weight: 600;
+    color: #111827;
+    line-height: 1;
+  }
+  
+  .statLabel {
+    font-size: 14px;
+    color: #6B7280;
+    text-transform: uppercase;
+  }
+  
+  /* Orders section */
+  .ordersSection {
+    margin-top: 32px;
+  }
+  
+  .ordersList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .orderCard {
+    padding: 16px;
+    background-color: #F9FAFB;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+  }
+  
+  .orderCard:hover {
+    background-color: #F3F4F6;
+    transform: translateY(-1px);
+  }
+  
+  .orderGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  
+  .orderLabel {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+  }
+  
+  .orderValue {
+    font-size: 14px;
+    color: #6B7280;
+  }
+  
+  .chevronIcon {
+    color: #6B7280;
+    transition: transform 0.2s ease;
+  }
+  
+  .orderCard:hover .chevronIcon {
+    transform: translateX(4px) rotate(-90deg);
+  }
+  
+  /* Empty state */
+  .emptyState {
+    text-align: center;
+    color: #6B7280;
+    padding: 32px;
+    background-color: #F9FAFB;
+    border-radius: 8px;
+  }
