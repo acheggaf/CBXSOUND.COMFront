@@ -4,16 +4,18 @@ import { Cart, PaymentSession } from "@medusajs/medusa"
 import { Button } from "@medusajs/ui"
 import { OnApproveActions, OnApproveData } from "@paypal/paypal-js"
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js"
-import { useElements, useStripe } from "@stripe/react-stripe-js"
+import { useElements, useStripe , CardElement } from "@stripe/react-stripe-js"
 import { placeOrder } from "@modules/checkout/actions"
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import ErrorMessage from "../error-message"
 import Spinner from "@modules/common/icons/spinner"
+import { StripeContext } from "../payment-wrapper"
 
 type PaymentButtonProps = {
   cart: Omit<Cart, "refundable_amount" | "refunded_total">
   "data-testid": string
 }
+
 
 const PaymentButton: React.FC<PaymentButtonProps> = ({
   cart,
@@ -90,6 +92,7 @@ const StripePaymentButton = ({
 }) => {
   const [submitting, setSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const stripeReady = useContext(StripeContext)
 
   const onPaymentCompleted = async () => {
     await placeOrder().catch(() => {
@@ -100,72 +103,101 @@ const StripePaymentButton = ({
 
   const stripe = useStripe()
   const elements = useElements()
-  const card = elements?.getElement("card")
+
+  if (!stripeReady || !stripe || !elements) {
+    return null
+  }
 
   const session = cart.payment_session as PaymentSession
-
-  const disabled = !stripe || !elements ? true : false
 
   const handlePayment = async () => {
     setSubmitting(true)
 
-    if (!stripe || !elements || !card || !cart) {
+    if (!stripe || !elements || !cart) {
       setSubmitting(false)
       return
     }
 
-    await stripe
-      .confirmCardPayment(session.data.client_secret as string, {
-        payment_method: {
-          card: card,
-          billing_details: {
-            name:
-              cart.billing_address.first_name +
-              " " +
-              cart.billing_address.last_name,
-            address: {
-              city: cart.billing_address.city ?? undefined,
-              country: cart.billing_address.country_code ?? undefined,
-              line1: cart.billing_address.address_1 ?? undefined,
-              line2: cart.billing_address.address_2 ?? undefined,
-              postal_code: cart.billing_address.postal_code ?? undefined,
-              state: cart.billing_address.province ?? undefined,
+    // Get card element
+    const cardElement = elements.getElement(CardElement)
+    if (!cardElement) {
+      setSubmitting(false)
+      return
+    }
+
+    try {
+      const { error, paymentIntent } = await stripe.confirmCardPayment(
+        session.data.client_secret as string,
+        {
+          payment_method: {
+            card: cardElement,
+            billing_details: {
+              name:
+                cart.billing_address.first_name +
+                " " +
+                cart.billing_address.last_name,
+              address: {
+                city: cart.billing_address.city ?? undefined,
+                country: cart.billing_address.country_code ?? undefined,
+                line1: cart.billing_address.address_1 ?? undefined,
+                line2: cart.billing_address.address_2 ?? undefined,
+                postal_code: cart.billing_address.postal_code ?? undefined,
+                state: cart.billing_address.province ?? undefined,
+              },
+              email: cart.email,
+              phone: cart.billing_address.phone ?? undefined,
             },
-            email: cart.email,
-            phone: cart.billing_address.phone ?? undefined,
           },
-        },
-      })
-      .then(({ error, paymentIntent }) => {
-        if (error) {
-          const pi = error.payment_intent
-
-          if (
-            (pi && pi.status === "requires_capture") ||
-            (pi && pi.status === "succeeded")
-          ) {
-            onPaymentCompleted()
-          }
-
-          setErrorMessage(error.message || null)
-          return
         }
+      )
+
+      if (error) {
+        const pi = error.payment_intent
 
         if (
-          (paymentIntent && paymentIntent.status === "requires_capture") ||
-          paymentIntent.status === "succeeded"
+          (pi && pi.status === "requires_capture") ||
+          (pi && pi.status === "succeeded")
         ) {
-          return onPaymentCompleted()
+          await onPaymentCompleted()
         }
 
+        setErrorMessage(error.message || null)
+        setSubmitting(false)
         return
-      })
+      }
+
+      if (
+        (paymentIntent && paymentIntent.status === "requires_capture") ||
+        paymentIntent.status === "succeeded"
+      ) {
+        await onPaymentCompleted()
+      }
+    } catch (e) {
+      setErrorMessage("An error occurred, please try again.")
+      setSubmitting(false)
+    }
   }
 
   return (
-    <>
+    <div className="flex flex-col gap-y-2">
+      <CardElement 
+        options={{
+          style: {
+            base: {
+              fontSize: '16px',
+              color: '#424770',
+              '::placeholder': {
+                color: '#aab7c4',
+              },
+            },
+            invalid: {
+              color: '#9e2146',
+            },
+          },
+        }}
+      />
       <Button
-        disabled={disabled || notReady}
+        disabled={!stripe || !elements || notReady}
         onClick={handlePayment}
         size="large"
         isLoading={submitting}
@@ -177,7 +209,7 @@ const StripePaymentButton = ({
         error={errorMessage}
         data-testid="stripe-payment-error-message"
       />
-    </>
+    </div>
   )
 }
 

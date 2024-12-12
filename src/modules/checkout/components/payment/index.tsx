@@ -80,9 +80,25 @@ const Payment = ({
       })
   }
 
-  const handleChange = (providerId: string) => {
+  const handleChange = async (providerId: string) => {
     setError(null)
-    set(providerId)
+    setIsLoading(true)
+    try {
+      // First set the payment method
+      await setPaymentMethod(providerId)
+      
+      // If it's stripe, let's log to see what's happening
+      if (providerId === "stripe") {
+        console.log("Cart after setting payment:", cart)
+        console.log("Payment Session:", cart?.payment_session)
+        console.log("Client Secret:", cart?.payment_session?.data?.client_secret)
+      }
+    } catch (err) {
+      console.error("Error setting payment method:", err)
+    } finally {
+      if (providerId === "paypal") return
+      setIsLoading(false)
+    }
   }
 
   const handleEdit = () => {
