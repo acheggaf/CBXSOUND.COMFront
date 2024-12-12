@@ -12,14 +12,16 @@ import {
 } from "react-icons/fi"
 import { signOut } from "@modules/account/actions"
 import { Customer } from "@medusajs/medusa"
-import { fetchCustomerData } from "@lib/actions/cutomers";
+import { fetchCustomerData } from "@lib/actions/cutomers"
 
 const UserDropdown = () => {
+  // State management for dropdown and customer data
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [customer, setCustomer] = useState<Omit<Customer, "password_hash"> | null>(null)
   const { countryCode } = useParams() as { countryCode: string }
   const router = useRouter()
 
+  // Function to fetch and update customer data
   const updateCustomerData = async () => {
     try {
       const customerData = await fetchCustomerData()
@@ -30,6 +32,7 @@ const UserDropdown = () => {
     }
   }
 
+  // Initial data fetch on component mount
   useEffect(() => {
     updateCustomerData()
   }, [])
@@ -56,7 +59,7 @@ const UserDropdown = () => {
     }
   }
 
-  // Not logged in - simple link with adjusted icon position
+  // Not logged in state - simple link with 2px upward translation
   if (!customer) {
     return (
       <LocalizedClientLink 
@@ -64,14 +67,14 @@ const UserDropdown = () => {
         className="h-full flex items-center"
         onMouseEnter={handleMouseEnter}
       >
-        <div className="transform -translate-y-0.25">
+        <div className="-translate-y-0.5">
           <User size={20} />
         </div>
       </LocalizedClientLink>
     )
   }
 
-  // Logged in - dropdown menu with adjusted icon position
+  // Logged in state - dropdown menu with 2px upward translation
   return (
     <div 
       className="h-full z-50"
@@ -81,7 +84,7 @@ const UserDropdown = () => {
       <Popover className="relative h-full">
         <Popover.Button className="h-full">
           <div className="hover:text-ui-fg-base relative inline-flex items-center">
-            <div className="transform -translate-y-0.25">
+            <div className="-translate-y-0.5">
               <User size={20} />
             </div>
           </div>
