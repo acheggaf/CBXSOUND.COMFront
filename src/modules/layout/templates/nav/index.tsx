@@ -1,7 +1,8 @@
-import { type FC } from 'react';
-import { MobileMenuWrapper } from '@modules/layout/components/mobile-nav';
-import CartButton from "@modules/layout/components/cart-button";
-import LocalizedClientLink from "@modules/common/components/localized-client-link";
+import { type FC } from 'react'
+import { MobileMenuWrapper } from '@modules/layout/components/mobile-nav'
+import CartButton from "@modules/layout/components/cart-button"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import UserDropdown from "@modules/layout/components/user-dropdown"
 import styles from './style.module.css'
 
 export default function Nav() {
@@ -24,7 +25,7 @@ export default function Nav() {
 
         {/* Icons */}
         <div className={styles.iconHolder}>
-          <a href="/account" className={`${styles.navicon} ${styles.userlogin}`}></a>
+          <UserDropdown  /> 
           <CartButton />
           <LocalizedClientLink
             href="/search"
@@ -36,5 +37,5 @@ export default function Nav() {
         </div>
       </div>
     </>
-  );
+  )
 }
