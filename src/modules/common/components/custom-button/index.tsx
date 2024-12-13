@@ -17,7 +17,7 @@ export const Button: React.FC<CustomButtonProps> = ({
   size = "medium",
   ...props
 }) => {
-  const baseStyles = "font-semibold rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2";
+  const baseStyles = "font-regular rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2";
   
   const variants: Record<ButtonVariant, string> = {
     primary: "bg-black hover:bg-gray-800 text-white focus:ring-black",
