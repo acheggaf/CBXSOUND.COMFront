@@ -2,7 +2,7 @@
 
 import { Popover, Transition } from "@headlessui/react"
 import { Cart } from "@medusajs/medusa"
-import { Button } from "@medusajs/ui"
+import { Button } from "@modules/common/components/custom-button"
 import { useParams, usePathname } from "next/navigation"
 import { Fragment, useEffect, useRef, useState } from "react"
 import { ShoppingCart } from "lucide-react"

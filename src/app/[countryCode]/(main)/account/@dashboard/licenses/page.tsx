@@ -20,7 +20,7 @@ export default async function Licenses() {
       <div className="mb-8 flex flex-col gap-y-4">
         <h1 className="text-2xl-semi">Plugin Licenses</h1>
         <p className="text-base-regular">
-          View and manage licenses for your purchased plugins. Each plugin can be activated on up to 5 machines.
+          View and manage licenses for your purchased plugins. Each plugin can be activated on up to 3 machines.
         </p>
       </div>
       <div>

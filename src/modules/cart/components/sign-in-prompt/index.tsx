@@ -1,5 +1,6 @@
-import { Button, Heading, Text } from "@medusajs/ui"
+import { Heading, Text } from "@medusajs/ui"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import { Button } from "@modules/common/components/custom-button"
 
 const SignInPrompt = () => {
   return (

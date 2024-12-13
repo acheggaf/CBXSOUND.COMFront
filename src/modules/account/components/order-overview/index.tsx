@@ -1,7 +1,7 @@
 "use client"
 
 import { Order } from "@medusajs/medusa"
-import { Button } from "@medusajs/ui"
+import { Button } from "@modules/common/components/custom-button"
 
 import OrderCard from "../order-card"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"

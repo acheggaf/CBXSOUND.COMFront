@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { medusaClient } from "@lib/config"
-import { Button } from "@medusajs/ui"
+import { Button } from "@modules/common/components/custom-button"
 import { useForm } from "react-hook-form"
 
 interface License {

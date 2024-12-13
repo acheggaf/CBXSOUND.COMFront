@@ -1,5 +1,5 @@
 import { Order } from "@medusajs/medusa"
-import { Button } from "@medusajs/ui"
+import { Button } from "@modules/common/components/custom-button"
 import { useMemo } from "react"
 
 import Thumbnail from "@modules/products/components/thumbnail"

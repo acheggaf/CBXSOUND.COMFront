@@ -1,4 +1,4 @@
-import { Button } from "@medusajs/ui"
+import { Button } from "@modules/common/components/custom-button"
 import styles from "./style.module.css";
 
 const Hero = () => {
