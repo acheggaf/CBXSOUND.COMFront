@@ -33,13 +33,14 @@ export default function CheckoutLayout({ children }: CheckoutLayoutProps) {
 
           <LocalizedClientLink
             href="/"
-            className="flex items-center gap-2 text-xl font-bold tracking-tight text-gray-900 transition-colors duration-200 hover:text-gray-700"
+            className="flex items-center"
             data-testid="store-link"
           >
-            <span className="relative">
-              CBX Sound
-              <span className="absolute -bottom-px left-0 h-[2px] w-0 bg-gradient-to-r from-blue-500 to-violet-500 transition-all duration-200 group-hover:w-full" />
-            </span>
+            <div 
+              className="bg-[url('/img/cbxlogo.svg')] bg-no-repeat bg-contain bg-center w-[216px] h-6"
+              role="img"
+              aria-label="CBX Sound Logo"
+            />
           </LocalizedClientLink>
 
           <div className="w-[68px] sm:w-[140px]" aria-hidden="true" />
