@@ -26,7 +26,7 @@ const EmptyCartMessage = () => {
 
       {/* Descriptive text */}
       <Text className="text-lg text-gray-600 max-w-md mb-8">
-        You don't have anything in your cart yet. Let's find the perfect plugin for your sound.
+        You don&apos;t have anything in your cart yet. Let&apos;s find the perfect plugin for your sound.
       </Text>
 
       {/* Enhanced call-to-action */}

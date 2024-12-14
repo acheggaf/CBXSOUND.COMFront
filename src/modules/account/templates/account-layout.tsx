@@ -44,7 +44,7 @@ const AccountLayout: React.FC<AccountLayoutProps> = ({
                   </h3>
                   <p className="text-gray-600 max-w-md">
                     Find answers to common questions in our customer service section.
-                    We're here to help you get the most out of your plugins.
+                    We&apos;re here to help you get the most out of your plugins.
                   </p>
                 </div>
               </div>
