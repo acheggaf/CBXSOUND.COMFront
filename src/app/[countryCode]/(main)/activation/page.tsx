@@ -19,7 +19,7 @@ export default function Activation() {
 
         <div className={styles.step}>
           <h2>Step 3: Get Your Machine ID</h2>
-          <p>When you first open the plugin, you'll see the activation screen. The plugin will generate a unique machine ID code. Copy this code.</p>
+          <p>When you first open the plugin, you&apos;ll see the activation screen. The plugin will generate a unique machine ID code. Copy this code.</p>
         </div>
 
         <div className={styles.step}>
@@ -29,21 +29,21 @@ export default function Activation() {
             <li>Go to your purchased products</li>
             <li>Find the plugin you want to activate</li>
             <li>Paste your machine ID in the input field</li>
-            <li>Click "Generate New License"</li>
+            <li>Click &apos;Generate New License&apos;</li>
           </ul>
         </div>
 
         <div className={styles.step}>
           <h2>Step 5: Activate Your Plugin</h2>
-          <p>Copy the generated license key and paste it into the plugin's activation screen. Click "Validate" to complete the activation.</p>
+          <p>Copy the generated license key and paste it into the plugin&apos;s activation screen. Click &apos;Validate&apos; to complete the activation.</p>
         </div>
 
         <div className={styles.troubleshooting}>
           <h2>Having Issues?</h2>
           <p>If you encounter any problems during activation:</p>
           <ul>
-            <li>Make sure you're copying the entire machine ID and license key</li>
-            <li>Check that you're using the correct version for your operating system</li>
+            <li>Make sure you&apos;re copying the entire machine ID and license key</li>
+            <li>Check that you&apos;re using the correct version for your operating system</li>
             <li>Try restarting your DAW after activation</li>
             <li>Contact our support if you need further assistance</li>
           </ul>
